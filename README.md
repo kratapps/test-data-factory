@@ -10,7 +10,7 @@ todo
 [![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N300000016b7FEAQ)
 -->
 
-Create objects in unit tests seamlessly.  
+Create sObjects in unit tests seamlessly.  
 
 * Test Data Factory out-of-the-box creates records with all required fields already populated.
 * Extend `SObjectFactory` class to provide base records for your unit tests. This way you can ensure records pass validation rules.
