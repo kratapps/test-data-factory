@@ -1,0 +1,16 @@
+{
+  "orgName": "Kratapss SObject Factory",
+  "edition": "Developer",
+  "features": [],
+  "settings": {
+    "communitiesSettings": {
+      "enableOotbProfExtUserOpsEnable": true
+    },
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    }
+  }
+}
