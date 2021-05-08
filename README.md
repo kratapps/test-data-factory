@@ -227,3 +227,6 @@ The ProfileId can be then overridden in the created/mocked/inserted method call 
 ### Disable populating required fields
 When your sObject has hundreds of fields, you should disable auto populating to improve performance.
 Set `autoPopulateRequiredFields` false in your SObject Factory class.
+
+## License
+Licensed under [MIT](https://github.com/kratapps/test-data-factory/blob/main/LICENSE)
