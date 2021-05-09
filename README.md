@@ -32,14 +32,15 @@ sfdx force:package:install -p 04t090000002siA
 
 ## Example 
 ```apex
-// Create Account, required fields are populated automatically, add fields specific for your unit test
+// create account, required fields are populated automatically
+// add fields specific for your unit test
 Account acc = (Account) factory
     .inserted(new Account(
         Description = 'My Account',
         Parent = anotherAcc
     ))
     .toSObject();
-// Create 5 contacts with 3 different descriptions
+// create 5 contacts with 3 different descriptions
 List<Contact> created = (List<Contact>) factory
     .rotate(Contact.Description, new List<String>{'desc 0', 'desc 1', 'desc 2'})
     .inserted(5, new Contact())
