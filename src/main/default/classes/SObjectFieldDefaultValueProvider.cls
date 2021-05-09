@@ -76,7 +76,7 @@ public virtual class SObjectFieldDefaultValueProvider implements ISObjectFieldDe
 
     public virtual String getDefaultString(SObjectField sObjField, DescribeFieldResult fieldDescribe) {
         if (sObjField == User.Username) {
-            return 'first.last@company.com';
+            return 'first.last-' + Math.abs(Crypto.getRandomInteger()) + '@tdf.com';
         }
         return fieldDescribe.getLabel();
     }

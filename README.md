@@ -144,7 +144,7 @@ You can disable this feature by overriding this method.
 
 * autoPopulateRequiredFields (optional)  
 This feature is enabled for every sObject without SObject Factory class.
-Once you create this class the feature is disabled by default.
+Once you create the SObject Factory instance class, the feature is disabled by default.
 Override this method and return true to enable it again.
 We strongly recommend disabling this feature for sObjects with a lot of fields
 to improve performance.
@@ -206,6 +206,7 @@ If using rotation for a relationship field, use Id field and list of sObjects.
 In our example `.rotate(Contact.AccountId, accountList)`.
 
 ## Best Practices
+Common best practices while using this TDF.
 
 ### Insertable records
 You should be able to insert every record without providing any values in the call. 
