@@ -165,7 +165,7 @@ global without sharing class ContactFactory extends sobj.SObjectFactory {
         if (sObjField == Contact.AccountId) {
             return factory.inserted(new Account()).toSObject();
         } else if (sObjField == ...) {
-            return factory...
+            return ...
         }      
         return null;
     }  
@@ -192,8 +192,8 @@ Opportunity closedOpp = (Opportunity) factory
 ```
 
 ### Rotations
-If you want your records to include multiple values, you can use `rotate` method.
-In the following example you will have these 5 contacts:
+If you want your records to have different values, you can use `rotate` method.
+In the following example you we will create 5 contacts with 3 different descriptions:
 ```apex
 List<Contact> created = (List<Contact>) factory
     .rotate(Contact.Description, new List<String>{'desc 0', 'desc 1', 'desc 2'})
@@ -201,13 +201,6 @@ List<Contact> created = (List<Contact>) factory
     .created(5, new Contact())
     .toList();
 ```
-| Index | Description |
-|-------|-------------|
-| 0     | desc 0      |
-| 1     | desc 1      |
-| 2     | desc 2      |
-| 3     | desc 0      |
-| 4     | desc 1      |  
 
 If using rotation for a relationship field, use Id field and list of sObjects.
 In our example `.rotate(Contact.AccountId, accountList)`.
