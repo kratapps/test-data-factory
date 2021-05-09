@@ -1,12 +1,11 @@
-<!--a href="https://sandbox-site-business-346-dev-ed-1773e0e779b.cs101.force.com/s/packages/sobj">
+<!--a href="https://sandbox-site-business-346-dev-ed-1773e0e779b.cs101.force.com/s/packages/sobj"-->
+<a>
   <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right" border-radius="10px"
-       src="https://sandbox-site-business-346-dev-ed-1773e0e779b.cs101.force.com/resource/images/logo_tdf.png"  />
-</a-->
+       src="https://sandbox-site-app-6827-dev-ed-17927c9e906.cs102.force.com/resource/images/logo_tdf_60_60.png"  />
+</a>
 
 # Test Data Factory
-
 <!--
-todo
 [![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N300000016b7FEAQ)
 -->
 
@@ -16,19 +15,6 @@ Create sObjects in unit tests seamlessly.
 * Extend `SObjectFactory` class to provide base records for your unit tests. This way you can ensure records pass validation rules.
 * Do you need in some unit tests more customized records? Define your records using the `SObjectFactoryScenario`.
 * Custom Settings and sObjects from managed packages can also be created.
-
-<!--
-todo
-## Installation
-Install [Managed Package](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000002siA)  
-```text
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000002siA
-```
-Using SFDX CLI  
-```bash
-sfdx force:package:install -p 04t090000002siA
-```
--->
 
 ## Example 
 ```apex
@@ -45,6 +31,16 @@ List<Contact> created = (List<Contact>) factory
     .rotate(Contact.Description, new List<String>{'desc 0', 'desc 1', 'desc 2'})
     .inserted(5, new Contact())
     .toList();
+```
+
+## Installation
+Install [Managed Package URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi)
+```text
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi
+```
+Using SFDX CLI
+```bash
+sfdx force:package:install -p 04t090000011fUi
 ```
 
 ## Usage
