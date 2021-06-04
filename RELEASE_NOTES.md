@@ -1,5 +1,5 @@
 # Release Notes
-https://kratapps.com/sobj/test-data-factory/release-notes
+[Release Notes Link](https://kratapps.com/sobj/test-data-factory/release-notes)
 
 ## 1.1 
 Id: 04t090000011mS6  
