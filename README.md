@@ -38,7 +38,7 @@ Do not modify the unpackaged code,
 we are not able to provide support if code deployed unpackaged.
 
 ### Managed Package
-Install Managed Package using this [URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi):
+Install Managed Package using this [URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6):
 ```text
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6
 ```
