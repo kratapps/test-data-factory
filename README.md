@@ -43,7 +43,7 @@ Install Managed Package using this [URL](https://login.salesforce.com/packaging/
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6
 ```
 Using SFDX CLI:
-```bash
+```shell
 sfdx force:package:install -p 04t090000011mS6
 ```
 
@@ -51,7 +51,7 @@ sfdx force:package:install -p 04t090000011mS6
 Deploy all components in the `src/main/default/`.
 
 Using SFDX CLI:
-```bash
+```shell
 git clone https://github.com/kratapps/test-data-factory.git
 cd test-data-factory
 sfdx force:source:deploy -p src/main/default -u my-org
