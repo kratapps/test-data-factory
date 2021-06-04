@@ -18,6 +18,6 @@ global abstract class SObjectFactoryScenario implements ISObjectFactoryScenario 
     }
     
     global virtual Boolean autoPopulateRequiredFields() {
-        return true;
+        return false;
     }
 }

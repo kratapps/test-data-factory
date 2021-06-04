@@ -7,7 +7,7 @@ private class TestDataFactoryTest {
     private static final TestDataFactory factory = new TestDataFactory();
     private static final String NEW_DESCRIPTION = 'overridden desc';
     private static final Organization org = [SELECT NamespacePrefix FROM Organization LIMIT 1];
-    
+
     static void staticSetup() {
         factory.setNamespace(org.NamespacePrefix);
     }
@@ -169,7 +169,7 @@ private class TestDataFactoryTest {
     }
 
     @IsTest
-    static void testCreateAccountWithInsert() { 
+    static void testCreateAccountWithInsert() {
         staticSetup();
         Account created = (Account) factory.inserted(new Account(
                 Description = NEW_DESCRIPTION
@@ -240,15 +240,15 @@ private class TestDataFactoryTest {
         System.assertEquals(null, created.Id);
         System.assertEquals(AccountScenario.NAME, created.Name);
         System.assertEquals(null, created.Description);
-        
+
         try {
             factory.useScenario(AccountScenario.class).useScenario(AccountScenario.class);
-            System.assert(false,' Exception expected');
+            System.assert(false, ' Exception expected');
         } catch (TestDataFactoryException e) {
             System.assertEquals('Scenario already set', e.getMessage());
         }
     }
-     
+
     @IsTest
     static void testAbstract() {
         staticSetup();

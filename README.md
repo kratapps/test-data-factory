@@ -33,6 +33,9 @@ List<Contact> created = (List<Contact>) factory
 ```
 
 ## Installation
+You can either use Managed Package or deployed code directly.
+
+### Managed Package
 Install [Managed Package URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi)
 ```text
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi
@@ -41,6 +44,10 @@ Using SFDX CLI
 ```bash
 sfdx force:package:install -p 04t090000011fUi
 ```
+
+### Unpackaged
+* Deploy all components in the `src/main/default/`.
+* 
 
 ## Usage
 You can create records using the TDF immediately in small projects 
