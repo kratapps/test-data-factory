@@ -6,9 +6,10 @@
 private class TestDataFactoryTest {
     private static final TestDataFactory factory = new TestDataFactory();
     private static final String NEW_DESCRIPTION = 'overridden desc';
+    private static final Organization org = [SELECT NamespacePrefix FROM Organization LIMIT 1];
     
     static void staticSetup() {
-        SObjectFactoryLoader.isSObjPackageRunningTest = true;
+        factory.setNamespace(org.NamespacePrefix);
     }
 
     @IsTest

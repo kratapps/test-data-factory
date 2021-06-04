@@ -5,7 +5,6 @@
 @IsTest
 global without sharing class SObjectFactoryLoader {
     public String namespacePrefix = '';
-    public static Boolean isSObjPackageRunningTest = false;
     
     private static final Map<Type, SObjectFactoryScenario> scenarioCache = new Map<Type, SObjectFactoryScenario>();
     private static final Map<SObjectType, SObjectFactory> factories = new Map<SObjectType, SObjectFactory>();
@@ -58,9 +57,8 @@ global without sharing class SObjectFactoryLoader {
 
     private Type getSObjectFactoryType(SObjectType sObjType) {
         String factoryName = getFactoryName(sObjType);
-        String ns = isSObjPackageRunningTest ? 'sobj' : namespacePrefix;
-        Type factoryType = Type.forName(ns, factoryName);
-        if (factoryType == null || (!isSObjPackageRunningTest && factoryType.getName().startsWith('sobj.'))) {
+        Type factoryType = Type.forName(namespacePrefix, factoryName);
+        if (factoryType == null || (namespacePrefix != 'sobj' && factoryType.getName().startsWith('sobj.'))) {
             factoryType = DefaultSObjectFactory.class;
         }
         return factoryType;

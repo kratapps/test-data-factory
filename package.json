@@ -1,8 +1,8 @@
 {
-  "name": "sobject-factory",
+  "name": "test-data-factory",
   "private": true,
   "version": "1.0.0",
-  "description": "SObject Factory",
+  "description": "Test Data Factory",
   "scripts": {
     "lint": "npm run lint:lwc && npm run lint:aura",
     "lint:aura": "eslint **/aura/**",
