@@ -33,7 +33,9 @@ List<Contact> created = (List<Contact>) factory
 ```
 
 ## Installation
-You can either use Managed Package or deployed code directly.
+You can either install our Managed Package or deployed code unpackaged.
+Do not modify the unpackaged code, 
+we are not able to provide support if code deployed unpackaged.
 
 ### Managed Package
 Install [Managed Package URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi)
@@ -46,8 +48,12 @@ sfdx force:package:install -p 04t090000011fUi
 ```
 
 ### Unpackaged
-* Deploy all components in the `src/main/default/`.
-* 
+Deploy all components in the `src/main/default/` except:
+* AccountFactory
+* AccountScenario
+* ContactFactory
+* TestDataFactoryTest
+
 
 ## Usage
 You can create records using the TDF immediately in small projects 
