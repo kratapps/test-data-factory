@@ -38,21 +38,24 @@ Do not modify the unpackaged code,
 we are not able to provide support if code deployed unpackaged.
 
 ### Managed Package
-Install [Managed Package URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi)
+Install Managed Package using this [URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011fUi):
 ```text
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6
 ```
-Using SFDX CLI
+Using SFDX CLI:
 ```bash
 sfdx force:package:install -p 04t090000011mS6
 ```
 
 ### Unpackaged
-Deploy all components in the `src/main/default/` except:
-* AccountFactory
-* AccountScenario
-* ContactFactory
-* TestDataFactoryTest
+Deploy all components in the `src/main/default/`.
+
+Using SFDX CLI:
+```bash
+git clone https://github.com/kratapps/test-data-factory.git
+cd test-data-factory
+sfdx force:source:deploy -p src/main/default -u my-org
+```
 
 
 ## Usage
