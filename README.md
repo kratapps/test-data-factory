@@ -42,21 +42,23 @@ Install Managed Package using this [URL](https://login.salesforce.com/packaging/
 ```text
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6
 ```
-Using SFDX CLI:
+Using sfdx cli:
 ```shell
-sfdx force:package:install -p 04t090000011mS6
+sfdx force:package:install -p 04t090000011mS6 -u myOrg
 ```
 
 ### Unpackaged
-Deploy all components in the `src/main/default/`.
+Use our sfdx plugin to install all components in the `src/main/default/` without cloning:
+```shell
+sfdx kratapps:remote:source:deploy -s https://github.com/kratapps/test-data-factory -p src/main/default/ -u myOrg
+```
 
-Using SFDX CLI:
+or clone the project and deploy using standard sfdx command:
 ```shell
 git clone https://github.com/kratapps/test-data-factory.git
 cd test-data-factory
-sfdx force:source:deploy -p src/main/default -u my-org
+sfdx force:source:deploy -p src/main/default -u myOrg
 ```
-
 
 ## Usage
 You can create records using the TDF immediately in small projects 
