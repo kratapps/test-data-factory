@@ -42,7 +42,7 @@ Install Managed Package using this [URL](https://login.salesforce.com/packaging/
 ```text
 https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6
 ```
-Using sfdx cli:
+or using sfdx cli:
 ```shell
 sfdx force:package:install -p 04t090000011mS6 -u myOrg
 ```
