@@ -113,7 +113,7 @@ List<Contact> contacts = (List<Contact>) factory.inserted(200, new Contact()).to
 
 Get mocked/inserted record by Id using getRecord static method 
 ```apex
-SObject sObj = TestDataFactory.getRecord(sObjectId);
+SObject sObj = sobj.TestDataFactory.getRecord(sObjectId);
 ```
 
 ### SObject Factories and Scenarios
