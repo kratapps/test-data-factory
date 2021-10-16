@@ -116,6 +116,24 @@ Get mocked/inserted record by Id using getRecord static method
 SObject sObj = TestDataFactory.getRecord(sObjectId);
 ```
 
+### Default Values
+There are multiple ways how to set field values:
+* Fields in the `target` sObject. This is the sObject you pass to created/inserted/mocked methods.
+* Fields in the `defaults` sObject. This is the sObject returned by `createDefaults` method.
+* Fields in the `metadata defaults` sObject. This sObject is build from Test_Data_Factory_Default__mdt metadata.
+
+If you define a value for a same field more than once, the order is as follows: 
+`target` > `defaults` > `metadata defaults`.
+
+### Metadata Defaults
+Define default fields values using Test_Data_Factory_Default__mdt custom metadata.
+This way, you can set fields values without creating or modifying any Apex code.
+Set sObject API name, field API name, and value in each entry.
+Optionally, you can enable each default value to a subset of:
+* Custom Factory. Taken into account only if SObjectFactory for related SObject is implemented and a scenario is not used.  
+* Default Factory. Taken into account only if SObjectFactory for related SObject is not implemented and a scenario is not used.
+* Scenario. Taken into account only if a scenario is used.
+
 ### SObject Factories and Scenarios
 SObject Factories and Scenarios provide the same interface.
 Look at the table below to choose between SObject Factory and Scenario.

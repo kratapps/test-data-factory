@@ -60,16 +60,20 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
         SObjectType targetSObjectType = target.getSObjectType();
         System.debug(TestDataFactoryBuilder.class + ' ' + pType + ' ' + count + ' ' + targetSObjectType);
         ISObjectFactory sObjFactory = loadSObjectFactory(targetSObjectType);
+        Boolean isDefaultFactory = sObjFactory instanceof DefaultSObjectFactory;
         if (sObjFactory.requireRecordType()) {
             SObjectUtils.requireRecordType(target);
         }
         List<SObject> sObjects = new List<SObject>();
+        SObject metadataDefaults = TestDataFactoryDefaultSettings.getDefaults(targetSObjectType, isDefaultFactory, isScenarioSet());
         for (Integer i = 0; i < count; ++i) {
             processIterations(i, target);
-            SObject defaults = sObjFactory.createDefaults(target);
-            if (defaults.getSObjectType() != target.getSObjectType()) {
-                throw new TestDataFactoryException('Defaults sObject from is of invalid type: ' + defaults.getSObjectType());
+            SObject defaults = metadataDefaults.clone();
+            SObject factoryDefaults = sObjFactory.createDefaults(target);
+            if (factoryDefaults.getSObjectType() != target.getSObjectType()) {
+                throw new TestDataFactoryException('Defaults sObject from "createDefaults" is of invalid type: ' + factoryDefaults.getSObjectType());
             }
+            SObjectUtils.mergeSObjects(defaults, factoryDefaults);
             SObjectUtils.mergeSObjects(defaults, target);
             parentFactory.mergeParentSObject(sObjFactory, defaults, target);
             if (sObjFactory.autoPopulateRequiredFields()) {
@@ -124,8 +128,12 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
     }
 
     private ISObjectFactory loadSObjectFactory(SObjectType sObjType) {
-        return scenarioType != null
+        return isScenarioSet()
                 ? factory.getSObjFactoryLoader().loadScenario(scenarioType)
                 : factory.getSObjFactoryLoader().loadSObjectFactory(sObjType);
+    }
+    
+    private Boolean isScenarioSet() {
+        return scenarioType != null;
     }
 }
