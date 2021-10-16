@@ -16,7 +16,7 @@ public without sharing class TestDataFactoryDefaultSettings {
                             Active_for_Scenario__c,
                             Field_API_Name__c,
                             SObject_API_Name__c,
-                            Value__c
+                            Field_Value__c
                     FROM Test_Data_Factory_Default__mdt
                     WHERE SObject_API_Name__c = :sObjName
             ];
@@ -42,7 +42,7 @@ public without sharing class TestDataFactoryDefaultSettings {
                     throw new TestDataFactoryException('Invalid Field_API_Name__c. Check your Test_Data_Factory_Default__mdt record: ' + setting.DeveloperName);
                 }
                 try {
-                    Object fieldValue = SObjectUtils.parseFieldValue(sObjType, setting.Field_API_Name__c, setting.Value__c);
+                    Object fieldValue = SObjectUtils.parseFieldValue(sObjType, setting.Field_API_Name__c, setting.Field_Value__c);
                     defaults.put(setting.Field_API_Name__c, fieldValue);
                 } catch (SObjectException e) {
                     throw new TestDataFactoryException('Unsupported data type. Check your Test_Data_Factory_Default__mdt record: ' + setting.DeveloperName, e);

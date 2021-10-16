@@ -23,8 +23,8 @@
                 <field>Field_API_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Value__c</field>
+                <behavior>Edit</behavior>
+                <field>Field_Value__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

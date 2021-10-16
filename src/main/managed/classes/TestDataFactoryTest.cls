@@ -272,7 +272,7 @@ private class TestDataFactoryTest {
                         Active_for_Scenario__c = true,
                         SObject_API_Name__c = 'Account',
                         Field_API_Name__c = 'Description',
-                        Value__c = 'desc mdt acc'
+                        Field_Value__c = 'desc mdt acc'
                 )
         });
         TestDataFactoryDefaultSettings.sObjNameToSettings.put('Opportunity', new List<Test_Data_Factory_Default__mdt>{
@@ -280,7 +280,7 @@ private class TestDataFactoryTest {
                         Active_for_Default_Factory__c = true,
                         SObject_API_Name__c = 'Opportunity',
                         Field_API_Name__c = 'Description',
-                        Value__c = 'desc mdt opp'
+                        Field_Value__c = 'desc mdt opp'
                 )
         });
         // case 1: factory > metadata

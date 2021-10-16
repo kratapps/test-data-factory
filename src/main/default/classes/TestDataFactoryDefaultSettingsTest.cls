@@ -13,7 +13,7 @@ private class TestDataFactoryDefaultSettingsTest {
                         Active_for_Custom_Factory__c = false,
                         SObject_API_Name__c = 'Account',
                         Field_API_Name__c = 'Description',
-                        Value__c = 'desc'
+                        Field_Value__c = 'desc'
                 )
         });
         Account acc = (Account) TestDataFactoryDefaultSettings.getDefaults(Account.SObjectType, true, false);
@@ -32,7 +32,7 @@ private class TestDataFactoryDefaultSettingsTest {
                         Active_for_Custom_Factory__c = true,
                         SObject_API_Name__c = 'Account',
                         Field_API_Name__c = 'Description',
-                        Value__c = 'desc'
+                        Field_Value__c = 'desc'
                 )
         });
         Account acc = (Account) TestDataFactoryDefaultSettings.getDefaults(Account.SObjectType, true, false);
@@ -51,7 +51,7 @@ private class TestDataFactoryDefaultSettingsTest {
                         Active_for_Custom_Factory__c = false,
                         SObject_API_Name__c = 'Account',
                         Field_API_Name__c = 'Description',
-                        Value__c = 'desc'
+                        Field_Value__c = 'desc'
                 )
         });
         Account acc = (Account) TestDataFactoryDefaultSettings.getDefaults(Account.SObjectType, true, false);
@@ -71,7 +71,7 @@ private class TestDataFactoryDefaultSettingsTest {
                         Active_for_Custom_Factory__c = false,
                         SObject_API_Name__c = 'xyz',
                         Field_API_Name__c = 'Description',
-                        Value__c = '1'
+                        Field_Value__c = '1'
                 )
         });
         TestDataFactoryDefaultSettings.sObjNameToSettings.put('Contact', new List<Test_Data_Factory_Default__mdt>{
@@ -82,7 +82,7 @@ private class TestDataFactoryDefaultSettingsTest {
                         Active_for_Custom_Factory__c = false,
                         SObject_API_Name__c = 'Contact',
                         Field_API_Name__c = 'xyz',
-                        Value__c = '1'
+                        Field_Value__c = '1'
                 )
         });
         try {
