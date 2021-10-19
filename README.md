@@ -14,7 +14,8 @@ Create sObjects in unit tests seamlessly.
 * Extend `SObjectFactory` class or add Custom Metadata to provide base records for your unit tests. This way you can ensure records pass validation rules.
 * Do you need in some unit tests more customized records? Define your records using the `SObjectFactoryScenario`.
 * Custom Settings and sObjects from managed packages can also be created.
-K
+
+
 ## Example 
 ```apex
 // create account, required fields are populated automatically
