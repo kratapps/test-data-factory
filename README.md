@@ -1,5 +1,5 @@
 <a href="https://kratapps.com/sobj/test-data-factory">
-  <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right" border-radius="10px"
+  <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right"
        src="https://kratapps.com/images/logo_tdf_642_642.png"  />
 </a>
 
