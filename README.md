@@ -4,8 +4,10 @@
 </a>
 
 # Test Data Factory
-[![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
-[![Security Review](https://img.shields.io/badge/Security%20Review-Passed-green)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
+
+[comment]: <> ([![App Exchange]&#40;https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue&#41;]&#40;https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX&#41;)
+
+[comment]: <> ([![Security Review]&#40;https://img.shields.io/badge/Security%20Review-Passed-green&#41;]&#40;https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX&#41;)
 
 Create sObjects in unit tests seamlessly.  
 
@@ -13,7 +15,7 @@ Create sObjects in unit tests seamlessly.
 * Extend `SObjectFactory` class or add Custom Metadata to provide base records for your unit tests. This way you can ensure records pass validation rules.
 * Do you need in some unit tests more customized records? Define your records using the `SObjectFactoryScenario`.
 * Custom Settings and sObjects from managed packages can also be created.
-
+K
 ## Example 
 ```apex
 // create account, required fields are populated automatically
