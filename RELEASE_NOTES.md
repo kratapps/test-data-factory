@@ -1,7 +1,8 @@
 # Release Notes
 [Release Notes Link](https://kratapps.com/sobj/test-data-factory/release-notes)
 
-## v1.2 beta
+## v1.2
+Version ID: 04t09000000v7va  
 Add Test_Data_Factory_Default__mdt settings.
 
 ## v1.1 

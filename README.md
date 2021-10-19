@@ -4,10 +4,8 @@
 </a>
 
 # Test Data Factory
-<!--
 [![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
 [![Security Review](https://img.shields.io/badge/Security%20Review-Passed-green)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
--->
 Create sObjects in unit tests seamlessly.  
 
 * Test Data Factory out-of-the-box creates records with all required fields already populated.
