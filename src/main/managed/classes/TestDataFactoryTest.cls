@@ -261,6 +261,38 @@ private class TestDataFactoryTest {
         System.assertEquals(null, s.makeParent(Account.ParentId, new Account()));
         System.assert(s.requireRecordType());
     }
+    
+    @IsTest
+    static void testMakeDefaultsPriority() {
+        staticSetup();
+        TestDataFactoryDefaultSettings.sObjNameToSettings.put('Account', new List<Test_Data_Factory_Default__mdt>{
+                new Test_Data_Factory_Default__mdt(
+                        Active_for_Default_Factory__c = true,
+                        Active_for_Custom_Factory__c = true,
+                        Active_for_Scenario__c = true,
+                        SObject_API_Name__c = 'Account',
+                        Field_API_Name__c = 'Description',
+                        Field_Value__c = 'desc mdt acc'
+                )
+        });
+        TestDataFactoryDefaultSettings.sObjNameToSettings.put('Opportunity', new List<Test_Data_Factory_Default__mdt>{
+                new Test_Data_Factory_Default__mdt(
+                        Active_for_Default_Factory__c = true,
+                        SObject_API_Name__c = 'Opportunity',
+                        Field_API_Name__c = 'Description',
+                        Field_Value__c = 'desc mdt opp'
+                )
+        });
+        // case 1: factory > metadata
+        Account acc = (Account) factory.created(new Account()).toSObject();
+        System.assertEquals('desc', acc.Description);
+        // case 2: target > factory
+        acc = (Account) factory.created(new Account(Description = 'desc target acc')).toSObject();
+        System.assertEquals('desc target acc', acc.Description);
+        // case 3: no factory, no target
+        Opportunity opp = (Opportunity) factory.created(new Opportunity()).toSObject();
+        System.assertEquals('desc mdt opp', opp.Description);
+    }
 
     static List<Account> queryAccounts() {
         return [SELECT Id, Name, Description FROM Account];

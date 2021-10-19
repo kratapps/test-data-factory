@@ -7,7 +7,7 @@ private class SObjectUtilsTest {
     @IsTest
     static void testMergeSObjects() {
         Account acc = new Account(Id = SObjectUtils.getMockId(Account.SObjectType), Name = 'parent');
-        Contact c1 = new Contact(FirstName = 'first1', LastName = 'last');
+        Contact c1 = new Contact(FirstName = 'first1', LastName = 'last', Description = 'desc');
         Contact c2 = new Contact(FirstName = 'first2', Email = 'email@email.com', Account = acc);
         SObjectUtils.mergeSObjects(c1, c2);
         System.assertEquals('first2', c1.FirstName);
@@ -18,6 +18,11 @@ private class SObjectUtilsTest {
         System.assertEquals('email@email.com', c2.Email);
         System.assertNotEquals(null, c1.Account);
         System.assertEquals(null, c1.AccountId);
+        c2.Account = null;
+        c2.Description = null;
+        SObjectUtils.mergeSObjects(c1, c2);
+        System.assertEquals(null, c1.Account);
+        System.assertEquals(null, c1.Description);
     }
     @IsTest
     static void testRequireRecordType() {
@@ -36,6 +41,22 @@ private class SObjectUtilsTest {
             // no exception expected
             SObjectUtils.requireRecordType(new Account());
         }
+    }
+    
+    @IsTest
+    static void testSafePut() {
+        Contact con = new Contact();
+        SObjectUtils.safePut(con, con.getSObjectType(), 'Description', 'desc');
+        System.assertEquals('desc', con.Description);
+        SObjectUtils.safePut(con, con.getSObjectType(), 'Description', null);
+        System.assertEquals(null, con.Description);
+        SObjectUtils.safePut(con, con.getSObjectType(), 'Account', new Account(Name = 'acc1'));
+        System.assertEquals('acc1', con.Account.Name);
+        SObjectUtils.safePut(con, con.getSObjectType(), 'Account', null);
+        System.assertEquals(null, con.Account);
+        Account acc = new Account();
+        SObjectUtils.safePut(acc, acc.getSObjectType(), 'BillingAddress', new Address()); // compound fields should be ignored
+        System.assertEquals(null, acc.BillingAddress);
     }
     
     @IsTest

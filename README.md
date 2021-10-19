@@ -1,19 +1,18 @@
 <a href="https://kratapps.com/sobj/test-data-factory">
-  <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right" border-radius="10px"
+  <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right"
        src="https://kratapps.com/images/logo_tdf_642_642.png"  />
 </a>
 
 # Test Data Factory
-<!--
-[![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N300000016b7FEAQ)
--->
-
+[![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
+[![Security Review](https://img.shields.io/badge/Security%20Review-Passed-green)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
 Create sObjects in unit tests seamlessly.  
 
 * Test Data Factory out-of-the-box creates records with all required fields already populated.
-* Extend `SObjectFactory` class to provide base records for your unit tests. This way you can ensure records pass validation rules.
+* Extend `SObjectFactory` class or add Custom Metadata to provide base records for your unit tests. This way you can ensure records pass validation rules.
 * Do you need in some unit tests more customized records? Define your records using the `SObjectFactoryScenario`.
 * Custom Settings and sObjects from managed packages can also be created.
+
 
 ## Example 
 ```apex
@@ -38,13 +37,13 @@ Do not modify the unpackaged code,
 we are not able to provide support if code deployed unpackaged.
 
 ### Managed Package
-Install Managed Package using this [URL](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6):
+Install Managed Package using this URL:
 ```text
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t090000011mS6
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t09000000v7va
 ```
 or using sfdx cli:
 ```shell
-sfdx force:package:install -p 04t090000011mS6 -u myOrg
+sfdx force:package:install -p 04t09000000v7va -u myOrg
 ```
 
 ### Unpackaged
@@ -115,6 +114,24 @@ Get mocked/inserted record by Id using getRecord static method
 ```apex
 SObject sObj = sobj.TestDataFactory.getRecord(sObjectId);
 ```
+
+### Default Values
+There are multiple ways how to set field values:
+* Fields in the `target` sObject. This is the sObject you pass to created/inserted/mocked methods.
+* Fields in the `defaults` sObject. This is the sObject returned by `createDefaults` method.
+* Fields in the `metadata defaults` sObject. This sObject is build from Test_Data_Factory_Default__mdt metadata.
+
+If you define a value for a same field more than once, the order is as follows: 
+`target` > `defaults` > `metadata defaults`.
+
+### Metadata Defaults
+Define default fields values using Test_Data_Factory_Default__mdt custom metadata.
+This way, you can set fields values without creating or modifying any Apex code.
+Set sObject API name, field API name, and value in each entry.
+Optionally, you can enable each default value to a subset of:
+* Custom Factory. Taken into account only if SObjectFactory for related SObject is implemented and a scenario is not used.  
+* Default Factory. Taken into account only if SObjectFactory for related SObject is not implemented and a scenario is not used.
+* Scenario. Taken into account only if a scenario is used.
 
 ### SObject Factories and Scenarios
 SObject Factories and Scenarios provide the same interface.
@@ -235,6 +252,9 @@ The ProfileId can be then overridden in the created/mocked/inserted method call 
 ### Disable populating required fields
 When your sObject has hundreds of fields, you should disable auto populating to improve performance.
 Set `autoPopulateRequiredFields` false in your SObject Factory class.
+
+## Release Notes
+[Link](https://kratapps.com/sobj/test-data-factory/release-notes)
 
 ## License
 Licensed under [MIT](https://github.com/kratapps/test-data-factory/blob/main/LICENSE)

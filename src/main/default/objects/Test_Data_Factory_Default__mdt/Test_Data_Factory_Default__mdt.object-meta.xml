@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Configure default values for SObject Factories and Scenarios.
+These default values work even when SObjectFactory and SObjectFactoryScenario are not implemented.
+Note that these values can be overwritten by createDefaults method.</description>
+    <label>Test Data Factory Default</label>
+    <pluralLabel>Test Data Factory Defaults</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
