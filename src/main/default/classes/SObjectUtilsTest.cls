@@ -46,16 +46,16 @@ private class SObjectUtilsTest {
     @IsTest
     static void testSafePut() {
         Contact con = new Contact();
-        SObjectUtils.safePut(con, con.getSObjectType(), 'Description', 'desc');
+        SObjectUtils.safePut(con, con.getSObjectType(), false, 'Description', 'desc');
         System.assertEquals('desc', con.Description);
-        SObjectUtils.safePut(con, con.getSObjectType(), 'Description', null);
+        SObjectUtils.safePut(con, con.getSObjectType(), false, 'Description', null);
         System.assertEquals(null, con.Description);
-        SObjectUtils.safePut(con, con.getSObjectType(), 'Account', new Account(Name = 'acc1'));
+        SObjectUtils.safePut(con, con.getSObjectType(), false, 'Account', new Account(Name = 'acc1'));
         System.assertEquals('acc1', con.Account.Name);
-        SObjectUtils.safePut(con, con.getSObjectType(), 'Account', null);
+        SObjectUtils.safePut(con, con.getSObjectType(), false, 'Account', null);
         System.assertEquals(null, con.Account);
         Account acc = new Account();
-        SObjectUtils.safePut(acc, acc.getSObjectType(), 'BillingAddress', new Address()); // compound fields should be ignored
+        SObjectUtils.safePut(acc, acc.getSObjectType(), false, 'BillingAddress', new Address()); // compound fields should be ignored
         System.assertEquals(null, acc.BillingAddress);
     }
     

@@ -24,6 +24,25 @@ private class TestDataFactoryTest {
     }
 
     @IsTest
+    static void testCreateCustomMetadata() {
+        staticSetup();
+        List<Test_Data_Factory_Default__mdt> created = (List<Test_Data_Factory_Default__mdt>) factory
+                .rotate(Test_Data_Factory_Default__mdt.Field_API_Name__c, new List<String>{
+                        'Name', 'Description'
+                })
+                .created(2, new Test_Data_Factory_Default__mdt(
+                        SObject_API_Name__c = 'Account'
+                ))
+                .toList();
+        System.assertEquals(0, Limits.getDmlStatements());
+        System.assert(queryAccounts().isEmpty());
+        System.assertEquals('Name', created[0].Field_API_Name__c);
+        System.assertEquals('Description', created[1].Field_API_Name__c);
+        System.assertEquals('Account', created[0].SObject_API_Name__c);
+        System.assertEquals('Account', created[1].SObject_API_Name__c);
+    }
+
+    @IsTest
     static void testInsertContactsWithRotations() {
         staticSetup();
         Account acc = (Account) factory.inserted(new Account()).toSObject();
