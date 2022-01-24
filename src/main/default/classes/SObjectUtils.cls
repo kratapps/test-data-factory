@@ -41,19 +41,21 @@ global without sharing class SObjectUtils {
 
     public static void mergeSObjects(SObject target, SObject source) {
         SObjectType sObjType = source.getSObjectType();
+        Boolean isCustomMetadata = sObjType.getDescribe().getName()?.endsWith('__mdt');
         Map<String, Object> populatedFields = source.getPopulatedFieldsAsMap();
         for (String fieldName : populatedFields.keySet()) {
             Object fieldValue = populatedFields.get(fieldName);
-            safePut(target, sObjType, fieldName, fieldValue);
+            safePut(target, sObjType, isCustomMetadata, fieldName, fieldValue);
         }
     }
     
-    public static void safePut(SObject sObj, SObjectType sObjType, String fieldName, Object fieldValue) {
+    public static void safePut(SObject sObj, SObjectType sObjType, Boolean isCustomMetadata, String fieldName, Object fieldValue) {
         DescribeFieldResult dfr = getDescribeFieldResult(sObjType, fieldName);
         if (dfr == null) {
             sObj.putSObject(fieldName, (SObject) fieldValue);
         } else if (PUT_SOAP_TYPES.contains(dfr.soapType) && !dfr.isDefaultedOnCreate() &&
-                !dfr.isAutoNumber() && dfr.isCreateable()) {
+                !dfr.isAutoNumber() && (dfr.isCreateable() || isCustomMetadata)) {
+            // DML on MDT is not possible so we can ignore isCreateable for MDT
             sObj.put(fieldName, fieldValue);
         }
     }
