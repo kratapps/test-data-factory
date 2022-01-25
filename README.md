@@ -40,11 +40,11 @@ we are not able to provide support if code deployed unpackaged.
 ### Managed Package
 Install Managed Package using this URL:
 ```text
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t09000000v7va
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t09000000v7x7
 ```
 or using sfdx cli:
 ```shell
-sfdx force:package:install -p 04t09000000v7va -u myOrg
+sfdx force:package:install -p 04t09000000v7x7 -u myOrg
 ```
 
 ### Unpackaged
@@ -76,11 +76,13 @@ private static final sobj.TestDataFactory factory = new sobj.TestDataFactory();
 Choose one of these operations: create, mock and insert.  
 Prefer crete or mock over insert to improve performance.  
 
-|             | create | mock | insert |
-|-------------|--------|------|--------|
-| Performance | fast   | fast | slower |
-| With Ids    | x      | yes  | yes    |
-| Queryable   | x      | x    | yes    |
+|                 | create | mock | insert |
+|-----------------|--------|------|--------|
+| Performance     | fast   | fast | slower |
+| With Ids        | ✕      | ✓    | ✓      |
+| Queryable       | ✕      | ✕    | ✓      |
+| Custom Settings | ✓      | ✓    | ✓      |
+| Custom Metadata | ✓      | ✓    | ✕      |
 
 Required fields are populated automatically.
 Default fields can be overridden using the target sObject provided.  

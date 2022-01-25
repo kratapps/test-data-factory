@@ -40,6 +40,9 @@ private class TestDataFactoryTest {
         System.assertEquals('Description', created[1].Field_API_Name__c);
         System.assertEquals('Account', created[0].SObject_API_Name__c);
         System.assertEquals('Account', created[1].SObject_API_Name__c);
+        Test_Data_Factory_Default__mdt mocked = (Test_Data_Factory_Default__mdt) factory
+                .mocked(new Test_Data_Factory_Default__mdt())
+                .toSObject();
     }
 
     @IsTest
