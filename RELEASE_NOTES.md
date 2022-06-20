@@ -1,5 +1,5 @@
 # Release Notes
-[Release Notes Link](https://kratapps.com/sobj/test-data-factory/release-notes)
+[Release Notes Link](https://kratapps.com/test-data-factory/release-notes)
 
 ## v1.3
 Version ID: 04t09000000v7x7  

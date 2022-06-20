@@ -252,7 +252,7 @@ For example User requires ProfileId which is not possible to insert automaticall
 In case you want to create user objects in your unit tests you should create `UserFactory` class and assign ProfileId there.
 The ProfileId can be then overridden in the created/mocked/inserted method call in a unit test.
 
-### Disable populating required fields
+### Disable auto populate required fields
 When your sObject has hundreds of fields, you should disable auto populating to improve performance.
 Set `autoPopulateRequiredFields` false in your SObject Factory class.
 

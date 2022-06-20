@@ -53,7 +53,7 @@ global without sharing class SObjectUtils {
         DescribeFieldResult dfr = getDescribeFieldResult(sObjType, fieldName);
         if (dfr == null) {
             sObj.putSObject(fieldName, (SObject) fieldValue);
-        } else if (PUT_SOAP_TYPES.contains(dfr.soapType) && !dfr.isDefaultedOnCreate() &&
+        } else if (PUT_SOAP_TYPES.contains(dfr.soapType) &&
                 !dfr.isAutoNumber() && (dfr.isCreateable() || isCustomMetadata)) {
             // DML on MDT is not possible so we can ignore isCreateable for MDT
             sObj.put(fieldName, fieldValue);

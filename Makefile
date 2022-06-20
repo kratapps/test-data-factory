@@ -1,8 +1,9 @@
-alias=tdf
+alias=sobj
 alias_dev=sobj-dev
 
 scratch-org:
 	make create-scratch-org
+	sfdx force:package:install -p 04t30000001DWL0 -u ${alias} -w 20 # License Management App (sfLma) - for testing only
 	sfdx force:source:push -u ${alias}
 
 create-scratch-org:

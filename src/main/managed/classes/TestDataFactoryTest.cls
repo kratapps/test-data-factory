@@ -11,6 +11,34 @@ private class TestDataFactoryTest {
     static void staticSetup() {
         factory.setNamespace(org.NamespacePrefix);
     }
+    
+    @IsTest
+    static void testInserted() {
+        List<SObjectType> sObjectType = new List<SObjectType>{
+                Account.SObjectType,
+                Campaign.SObjectType,
+                Case.SObjectType,
+                Contact.SObjectType,
+                Contract.SObjectType,
+                ContractLineItem.SObjectType,
+                Event.SObjectType,
+                Lead.SObjectType,
+                Opportunity.SObjectType,
+                OpportunityLineItem.SObjectType,
+                Order.SObjectType,
+                OrderItem.SObjectType,
+                Pricebook2.SObjectType,
+                PricebookEntry.SObjectType,
+                Product2.SObjectType,
+                Task.SObjectType,
+                User.SObjectType
+        };
+        for (SObjectType sObjType : sObjectType) {
+            System.debug('Going to test: ' + sObjType);
+            SObject sObj = factory.inserted(sObjType.newSObject()).toSObject();
+            Assert.notNull(sObj.Id, 'Record not inserted: ' + sObjType);
+        }
+    }
 
     @IsTest
     static void testCreateAccount() {
