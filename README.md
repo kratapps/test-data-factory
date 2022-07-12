@@ -48,16 +48,16 @@ sfdx force:package:install -p 04t09000000v7x7 -u myOrg
 ```
 
 ### Unpackaged
-Use our sfdx plugin to install all components in the `src/main/default/` without cloning:
+Use our sfdx plugin to install all components in the `src/main/core/` without cloning:
 ```shell
-sfdx kratapps:remote:source:deploy -s https://github.com/kratapps/test-data-factory -p src/main/default/ -u myOrg
+sfdx kratapps:remote:source:deploy -s https://github.com/kratapps/test-data-factory -p src/main/core/ -u myOrg
 ```
 
 or clone the project and deploy using standard sfdx command:
 ```shell
 git clone https://github.com/kratapps/test-data-factory.git
 cd test-data-factory
-sfdx force:source:deploy -p src/main/default -u myOrg
+sfdx force:source:deploy -p src/main/core/ -u myOrg
 ```
 
 ## Usage
