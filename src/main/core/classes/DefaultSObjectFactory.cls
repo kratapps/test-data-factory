@@ -8,24 +8,25 @@ public without sharing class DefaultSObjectFactory extends SObjectFactory {
 
     public SObject createDefaults(SObject target) {
         SObjectType sObjType = target.getSObjectType();
+        String sObjName = sObjType.getDescribe().getName();
         SObject def = sObjType.newSObject();
         if (sObjType == Event.SObjectType) {
             def.put(Event.DurationInMinutes, 60);
             def.put(Event.ActivityDateTime, Datetime.now().addMonths(2));
-        } else if (sObjType == OpportunityLineItem.SObjectType) {
-            def.put(OpportunityLineItem.TotalPrice, 100);
-            def.put(OpportunityLineItem.PricebookEntryId, getDefaultPricebookEntry().Id);
-        } else if (sObjType == Order.SObjectType) {
-            def.put(Order.Status, 'Draft');
-            def.put(Order.AccountId, getDefaultAccount().Id);
-            def.put(Order.Pricebook2Id, Test.getStandardPricebookId());
-        } else if (sObjType == OrderItem.SObjectType) {
-            def.put(OrderItem.UnitPrice, 1);
-        } else if (sObjType == PricebookEntry.SObjectType) {
-            def.put(PricebookEntry.Pricebook2Id, Test.getStandardPricebookId());
-            def.put(PricebookEntry.IsActive, true);
-        } else if (sObjType == ServiceContract.SObjectType) {
-            def.put(ServiceContract.Pricebook2Id, Test.getStandardPricebookId());
+        } else if (sObjName == 'OpportunityLineItem') {
+            def.put('TotalPrice', 100);
+            def.put('PricebookEntryId', getDefaultPricebookEntry().Id);
+        } else if (sObjName == 'Order') {
+            def.put('Status', 'Draft');
+            def.put('AccountId', getDefaultAccount().Id);
+            def.put('Pricebook2Id', Test.getStandardPricebookId());
+        } else if (sObjName == 'OrderItem') {
+            def.put('UnitPrice', 1);
+        } else if (sObjName == 'PricebookEntry') {
+            def.put('Pricebook2Id', Test.getStandardPricebookId());
+            def.put('IsActive', true);
+        } else if (sObjName == 'ServiceContract') {
+            def.put('Pricebook2Id', Test.getStandardPricebookId());
         } else if (sObjType == User.SObjectType) {
             def.put(User.ProfileId, getDefaultProfileId());
         }
@@ -49,10 +50,12 @@ public without sharing class DefaultSObjectFactory extends SObjectFactory {
         return defaultProfileId;
     }
 
-    private static PricebookEntry defaultPricebookEntry;
-    private PricebookEntry getDefaultPricebookEntry() {
+    // use PricebookEntry dynamically to avoid dependency on the "Product" feature
+    private static SObject defaultPricebookEntry;
+    private SObject getDefaultPricebookEntry() {
         if (defaultPricebookEntry == null) {
-            defaultPricebookEntry = (PricebookEntry) factory.inserted(new PricebookEntry()).toSObject();
+            SObject sObj = (SObject) Type.forName('PricebookEntry').newInstance();
+            defaultPricebookEntry = factory.inserted(sObj).toSObject();
         }
         return defaultPricebookEntry;
     }

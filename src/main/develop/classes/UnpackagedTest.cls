@@ -3,6 +3,33 @@ private class UnpackagedTest {
     private static TestDataFactory factory = new TestDataFactory();
 
     @IsTest
+    static void testInserted() {
+        List<SObjectType> sObjectType = new List<SObjectType>{
+                Account.SObjectType,
+                Campaign.SObjectType,
+                Case.SObjectType,
+                Contact.SObjectType,
+                Contract.SObjectType,
+                Event.SObjectType,
+                Lead.SObjectType,
+                Opportunity.SObjectType,
+                OpportunityLineItem.SObjectType,
+                Order.SObjectType,
+                OrderItem.SObjectType,
+                Pricebook2.SObjectType,
+                PricebookEntry.SObjectType,
+                Product2.SObjectType,
+                Task.SObjectType,
+                User.SObjectType
+        };
+        for (SObjectType sObjType : sObjectType) {
+            System.debug('Going to test: ' + sObjType);
+            SObject sObj = factory.inserted(sObjType.newSObject()).toSObject();
+            Assert.notNull(sObj.Id, 'Record not inserted: ' + sObjType);
+        }
+    }
+    
+    @IsTest
     static void testManagedPackageRecords() {
         sfLma__Package__c pkg = (sfLma__Package__c) factory.inserted(new sfLma__Package__c(
                 Name = 'pkg',

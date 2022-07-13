@@ -24,13 +24,8 @@ public virtual class SObjectFieldDefaultValueProvider implements ISObjectFieldDe
     }
 
     public virtual Double getDefaultDouble(SObjectField sObjField, DescribeFieldResult fieldDescribe) {
-        Set<SObjectField> nonZeroFields = new Set<SObjectField>{
-                OpportunityLineItem.Quantity,
-                ContractLineItem.Quantity,
-                OrderItem.Quantity
-        };
-        if (nonZeroFields.contains(sObjField)) {
-            return 1; // quantity must be nonzero
+        if (fieldDescribe?.getName() == 'Quantity') {
+            return 1; // nonzero standard quantity fields
         }
         return 0;
     }
