@@ -2,6 +2,7 @@
 [Release Notes Link](https://kratapps.com/test-data-factory/release-notes)
 
 ## v1.4
+Version ID: 04t09000000vCWn
 Fix issue #3 some Target and Factory Default values are not used.
 Change default value for all standard Quantity fields from 0 to 1.
 Enhance default SObject factory to support some standard objects out-of-the-box.
