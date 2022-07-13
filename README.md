@@ -40,11 +40,11 @@ we are not able to provide support if code deployed unpackaged.
 ### Managed Package
 Install Managed Package using this URL:
 ```text
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t09000000v7x7
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t09000000vCWn
 ```
 or using sfdx cli:
 ```shell
-sfdx force:package:install -p 04t09000000v7x7 -u myOrg
+sfdx force:package:install -p 04t09000000vCWn -u myOrg
 ```
 
 ### Unpackaged
