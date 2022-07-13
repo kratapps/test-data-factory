@@ -257,7 +257,7 @@ When your sObject has hundreds of fields, you should disable auto populating to 
 Set `autoPopulateRequiredFields` false in your SObject Factory class.
 
 ## Release Notes
-[Link](https://kratapps.com/sobj/test-data-factory/release-notes)
+[Link](https://kratapps.com/test-data-factory/release-notes)
 
 ## License
 Licensed under [MIT](https://github.com/kratapps/test-data-factory/blob/main/LICENSE)
