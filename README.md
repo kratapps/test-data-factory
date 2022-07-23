@@ -6,6 +6,9 @@
 # Test Data Factory
 [![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue?logo=salesforce)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
 [![Security Review](https://img.shields.io/badge/Security%20Review-Passed-green)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
+[![GitHub](https://img.shields.io/badge/GitHub-Public-black?logo=github)](https://github.com/kratapps/test-data-factory)
+[![Install Production](https://img.shields.io/badge/Managed%20Package-Install%20Production-cyan)](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t09000000vCWn)
+[![Install Sandbox](https://img.shields.io/badge/Managed%20Package-Install%20Sandbox-cyan)](https://test.salesforce.com/packaging/installPackage.apexp?p0=04t09000000vCWn)
 
 Create sObjects in unit tests seamlessly.  
 
@@ -33,9 +36,13 @@ List<Contact> created = (List<Contact>) factory
 ```
 
 ## Installation
-You can either install our Managed Package or deployed code unpackaged.
+You can either install our free 
+[Managed Package](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
+or deploy code unpackaged.
 Do not modify the unpackaged code, 
 we are not able to provide support if code deployed unpackaged.
+
+Version ID: 04t09000000vCWn
 
 ### Managed Package
 Install Managed Package using this URL:
