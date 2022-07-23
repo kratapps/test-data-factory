@@ -1,10 +1,10 @@
-<a href="https://kratapps.com/sobj/test-data-factory">
+<a href="https://kratapps.com/test-data-factory/">
   <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right"
        src="https://kratapps.com/images/logo_tdf_642_642.png"  />
 </a>
 
 # Test Data Factory
-[![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
+[![App Exchange](https://img.shields.io/badge/AppExchange-Test%20Data%20Factory-blue?logo=salesforce)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
 [![Security Review](https://img.shields.io/badge/Security%20Review-Passed-green)](https://appexchange.salesforce.com/appxListingDetail?listingId=a0N4V00000FNCbZUAX)
 
 Create sObjects in unit tests seamlessly.  
