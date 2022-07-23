@@ -1,6 +1,10 @@
 alias=sobj
 alias_dev=sobj-dev
 
+package_id=033090000008xSo
+version_name=1.4
+version_id=04t09000000vCWn
+
 scratch-org:
 	make create-scratch-org
 	sfdx force:package:install -p 04t30000001DWL0 -u ${alias} -w 20 # License Management App (sfLma) - for testing only
@@ -17,3 +21,9 @@ test:
 	
 test-dev:
 	sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests --resultformat human -u ${alias_dev}
+
+git-tag:
+	git tag -fa latest -m ${version_name}
+	git tag -fa ${version_id} -m ${version_name}
+	git tag -fa ${version_name} -m ${version_name}
+	git push -f --tags
