@@ -1,9 +1,9 @@
 alias=sobj
 alias_dev=sobj-dev
 
-package_id=033090000008xSo
+package_id=033090000008xSoAAI
 version_name=1.4
-version_id=04t09000000vCWn
+version_id=04t09000000vCWnAAM
 
 scratch-org:
 	make create-scratch-org
