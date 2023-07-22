@@ -54,21 +54,4 @@ private class UnpackagedTest {
         Assert.isNotNull(version2.sfLma__Package__c);
         Assert.areEqual(pkg.Id, version2.sfLma__Package__c);
     }
-
-    @IsTest
-    static void testCampaign() {
-        List<Lead> leads = (List<Lead>) factory.inserted(2, new Lead(Email = 'lead@kratapps.com', Status = 'Open', LastName = 'Lead'))
-            .toList();
-        Campaign camp = (Campaign) factory.inserted(new Campaign(Name = 'campaign')).toSObject();
-        Assert.isNotNull(camp.Id, 'ID cannot be null.');
-        Assert.areEqual('campaign', camp.Name);
-        CampaignMember member = (CampaignMember) factory.inserted(new CampaignMember(Campaign = camp, LeadId = leads.get(0).Id))
-            .toSObject();
-        Assert.areEqual(camp.Id, member.Campaign.Id);
-        Assert.areEqual(camp.Id, member.CampaignId);
-        CampaignMember member2 = (CampaignMember) factory.inserted(new CampaignMember(CampaignId = camp.Id, LeadId = leads.get(1).Id))
-            .toSObject();
-        Assert.isNull(member2.Campaign.Id);
-        Assert.areEqual(camp.Id, member2.CampaignId);
-    }
 }

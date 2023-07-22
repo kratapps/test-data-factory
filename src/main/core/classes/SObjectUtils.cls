@@ -4,8 +4,16 @@
  */
 global without sharing class SObjectUtils {
     private static Map<SObjectType, Long> mockIdCountBySObjectType = new Map<SObjectType, Long>();
+    private static Map<SObjectType, Map<String, SObjectField>> fieldsByRelationshipNamesBySObjectTypes = new Map<SObjectType, Map<String, SObjectField>>();
     private static final Set<SoapType> PUT_SOAP_TYPES = new Set<SoapType>{
-            SoapType.STRING, SoapType.ID, SoapType.BOOLEAN, SoapType.INTEGER, SoapType.DOUBLE, SoapType.LONG, SoapType.DATETIME, SoapType.DATE
+        SoapType.STRING,
+        SoapType.ID,
+        SoapType.BOOLEAN,
+        SoapType.INTEGER,
+        SoapType.DOUBLE,
+        SoapType.LONG,
+        SoapType.DATETIME,
+        SoapType.DATE
     };
     global static Map<String, SObjectType> globalDescribe {
         get {
@@ -17,13 +25,14 @@ global without sharing class SObjectUtils {
         private set;
     }
     private static final Map<SObjectType, DescribeSObjectResult> describeSObjectResults = new Map<SObjectType, DescribeSObjectResult>();
+
     global static DescribeSObjectResult describeSObject(SObjectType sObjType) {
         if (!describeSObjectResults.containsKey(sObjType)) {
             describeSObjectResults.put(sObjType, globalDescribe.get(String.valueOf(sObjType)).getDescribe());
         }
         return describeSObjectResults.get(sObjType);
     }
-    
+
     global static Id getMockId(SObjectType sObjType) {
         String keyPrefix = sObjType.getDescribe().getKeyPrefix();
         Long mockIdCount = mockIdCountBySObjectType.containsKey(sObjType) ? mockIdCountBySObjectType.get(sObjType) + 1 : 1;
@@ -48,13 +57,19 @@ global without sharing class SObjectUtils {
             safePut(target, sObjType, isCustomMetadata, fieldName, fieldValue);
         }
     }
-    
+
     public static void safePut(SObject sObj, SObjectType sObjType, Boolean isCustomMetadata, String fieldName, Object fieldValue) {
         DescribeFieldResult dfr = getDescribeFieldResult(sObjType, fieldName);
         if (dfr == null) {
-            sObj.putSObject(fieldName, (SObject) fieldValue);
-        } else if (PUT_SOAP_TYPES.contains(dfr.soapType) &&
-                !dfr.isAutoNumber() && (dfr.isCreateable() || isCustomMetadata)) {
+            SObject record = (SObject) fieldValue;
+            sObj.putSObject(fieldName, record);
+            if (record?.Id != null) {
+                SObjectField field = getFieldByRelationshipName(sObjType, fieldName);
+                if (field != null) {
+                    sObj.put(field, record.Id);
+                }
+            }
+        } else if (PUT_SOAP_TYPES.contains(dfr.soapType) && !dfr.isAutoNumber()) {
             // DML on MDT is not possible so we can ignore isCreateable for MDT
             sObj.put(fieldName, fieldValue);
         }
@@ -64,8 +79,7 @@ global without sharing class SObjectUtils {
         return getDescribeSObjectFieldMap(sObjType).get(fieldName)?.getDescribe();
     }
 
-    private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultRequiredBySObjectType =
-            new Map<SObjectType, List<DescribeFieldResult>>();
+    private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultRequiredBySObjectType = new Map<SObjectType, List<DescribeFieldResult>>();
     public static List<DescribeFieldResult> getDescribeFieldResultRequired(SObjectType sObjType) {
         if (!describeFieldResultRequiredBySObjectType.containsKey(sObjType)) {
             List<DescribeFieldResult> results = new List<DescribeFieldResult>();
@@ -81,12 +95,13 @@ global without sharing class SObjectUtils {
     }
 
     private static Boolean isRequired(DescribeFieldResult fieldDescribe) {
-        return !fieldDescribe.isNillable() && !fieldDescribe.isDefaultedOnCreate() &&
-                !fieldDescribe.isAutoNumber() && fieldDescribe.isCreateable();
+        return !fieldDescribe.isNillable() &&
+            !fieldDescribe.isDefaultedOnCreate() &&
+            !fieldDescribe.isAutoNumber() &&
+            fieldDescribe.isCreateable();
     }
 
-    private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultReferencesBySObjectType =
-            new Map<SObjectType, List<DescribeFieldResult>>();
+    private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultReferencesBySObjectType = new Map<SObjectType, List<DescribeFieldResult>>();
     public static List<DescribeFieldResult> getDescribeFieldResultReferences(SObjectType sObjType) {
         if (!describeFieldResultReferencesBySObjectType.containsKey(sObjType)) {
             List<DescribeFieldResult> results = new List<DescribeFieldResult>();
@@ -100,9 +115,8 @@ global without sharing class SObjectUtils {
         }
         return describeFieldResultReferencesBySObjectType.get(sObjType);
     }
-    
-    private static Map<SObjectType, Map<String, SObjectField>> describeSObjectFieldMapBySObjectType = 
-            new Map<SObjectType, Map<String, SObjectField>>();
+
+    private static Map<SObjectType, Map<String, SObjectField>> describeSObjectFieldMapBySObjectType = new Map<SObjectType, Map<String, SObjectField>>();
     private static Map<String, SObjectField> getDescribeSObjectFieldMap(SObjectType sObjType) {
         if (!describeSObjectFieldMapBySObjectType.containsKey(sObjType)) {
             describeSObjectFieldMapBySObjectType.put(sObjType, describeSObject(sObjType).fields.getMap());
@@ -121,7 +135,7 @@ global without sharing class SObjectUtils {
             throw new TestDataFactoryException('Record Type need to be specified: ' + target.getSObjectType());
         }
     }
-    
+
     public static Object parseFieldValue(SObjectType sObjType, String fieldName, String fieldValue) {
         SoapType sType = SObjectUtils.getDescribeFieldResult(sObjType, fieldName).soapType;
         switch on sType {
@@ -153,5 +167,19 @@ global without sharing class SObjectUtils {
                 throw new SObjectException('Unsupported Soap Type: ' + sType);
             }
         }
+    }
+
+    private static SObjectField getFieldByRelationshipName(SObjectType sObjType, String relationshipName) {
+        if (!fieldsByRelationshipNamesBySObjectTypes.containsKey(sObjType)) {
+            Map<String, SObjectField> fieldsByRelationshipNames = new Map<String, SObjectField>();
+            for (SObjectField field : sObjType.getDescribe().fields.getMap().values()) {
+                String relName = field.getDescribe().getRelationshipName();
+                if (relName != null) {
+                    fieldsByRelationshipNames.put(relName, field);
+                }
+                fieldsByRelationshipNamesBySObjectTypes.put(sObjType, fieldsByRelationshipNames);
+            }
+        }
+        return fieldsByRelationshipNamesBySObjectTypes.get(sObjType).get(relationshipName);
     }
 }

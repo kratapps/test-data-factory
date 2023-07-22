@@ -1,9 +1,7 @@
 alias=sobj
-alias_dev=sobj-dev
+alias_packaging=sobj-dev
 
-package_id=033090000008xSoAAI
-version_name=1.4
-version_id=04t09000000vCWnAAM
+include package.env
 
 scratch-org:
 	sfdx org create scratch --set-default --alias ${alias} --definition-file config/project-scratch-def.json --duration-days 30
@@ -13,17 +11,25 @@ scratch-org:
 create-scratch-org:
 	sfdx force:org:create -s -a ${alias} -f config/project-scratch-def.json -d 30
 	
-deploy-dev:
-	sfdx force:source:deploy -u ${alias_dev} -p src/ --testlevel RunLocalTests
+deploy-packaging:
+	sfdx force:source:deploy -u ${alias_packaging} -p src/ --testlevel RunLocalTests
+
+create-version-beta:
+	sfdx package1 version create --package-id ${package_id} --name ${version_name_beta} --target-org ${alias_packaging} --wait 60
+
+create-version-released:
+	sfdx package1 version create --package-id ${package_id} --name ${version_name_beta} --target-org ${alias_packaging} --wait 60 --managed-released
 	
 test:
 	sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests --resultformat human -u ${alias}
 	
-test-dev:
-	sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests --resultformat human -u ${alias_dev}
+test-packaging:
+	sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests --resultformat human -u ${alias_packaging}
 
 git-tag:
 	git tag -fa latest -m ${version_name}
 	git tag -fa ${version_id} -m ${version_name}
 	git tag -fa ${version_name} -m ${version_name}
-	git push -f --tags
+	git push origin ${version_id}
+	git push origin ${version_name}
+	git push origin latest -f

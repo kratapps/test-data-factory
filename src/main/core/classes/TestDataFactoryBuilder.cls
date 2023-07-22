@@ -63,27 +63,29 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
         if (sObjFactory.requireRecordType()) {
             SObjectUtils.requireRecordType(target);
         }
-        List<SObject> sObjects = new List<SObject>();
+        List<SObject> records = new List<SObject>();
         SObject metadataDefaults = TestDataFactoryDefaultSettings.getDefaults(targetSObjectType, isDefaultFactory, isScenarioSet());
         for (Integer i = 0; i < count; ++i) {
             processIterations(i, target);
-            SObject defaults = metadataDefaults.clone();
+            SObject record = metadataDefaults.clone();
             SObject factoryDefaults = sObjFactory.createDefaults(target);
             if (factoryDefaults.getSObjectType() != target.getSObjectType()) {
                 throw new TestDataFactoryException(
                     'Defaults sObject from "createDefaults" is of invalid type: ' + factoryDefaults.getSObjectType()
                 );
             }
-            SObjectUtils.mergeSObjects(defaults, factoryDefaults);
-            SObjectUtils.mergeSObjects(defaults, target);
-            parentFactory.mergeParentSObject(sObjFactory, defaults, target);
+            SObjectUtils.mergeSObjects(record, factoryDefaults);
+            SObjectUtils.mergeSObjects(record, target);
+            parentFactory.mergeParentSObject(sObjFactory, record, target);
             if (sObjFactory.autoPopulateRequiredFields()) {
-                autoPopulateRequiredFields(targetSObjectType, defaults);
+                autoPopulateRequiredFields(targetSObjectType, record);
             }
-            sObjects.add(defaults);
+            // ID could be populated through defaults record. Clear the value.
+            record.Id = null;
+            records.add(record);
         }
-        SObjectDatabase.process(pType, targetSObjectType, sObjects, sObjFactory.getDmlOptions());
-        return new SObjectFactoryResult(targetSObjectType, sObjects);
+        SObjectDatabase.process(pType, targetSObjectType, records, sObjFactory.getDmlOptions());
+        return new SObjectFactoryResult(targetSObjectType, records);
     }
 
     private void processIterations(Integer idx, SObject target) {
@@ -98,9 +100,11 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
                     target.putSObject(relationshipName, null);
                     target.put(field, null);
                 } else if (value instanceof SObject) {
-                    SObject sObjValue = (SObject) value;
-                    target.putSObject(relationshipName, sObjValue);
-                    target.put(field, sObjValue.Id);
+                    SObject record = (SObject) value;
+                    target.putSObject(relationshipName, record);
+                    if (record.Id != null) {
+                        target.put(field, record.Id);
+                    }
                 } else if (value instanceof Id) {
                     target.put(field, (Id) value);
                 } else {
