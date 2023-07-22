@@ -6,9 +6,9 @@ version_name=1.4
 version_id=04t09000000vCWnAAM
 
 scratch-org:
-	make create-scratch-org
-	sfdx force:package:install -p 04t30000001DWL0 -u ${alias} -w 20 # License Management App (sfLma) - for testing only
-	sfdx force:source:push -u ${alias}
+	sfdx org create scratch --set-default --alias ${alias} --definition-file config/project-scratch-def.json --duration-days 30
+	sfdx package install -o ${alias} -r -p 04t30000001DWL0 -w 20 # License Management App (sfLma) - for testing only
+	sfdx project deploy start
 
 create-scratch-org:
 	sfdx force:org:create -s -a ${alias} -f config/project-scratch-def.json -d 30
