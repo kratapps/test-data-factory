@@ -58,7 +58,6 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
             throw new TestDataFactoryException('Count is invalid: ' + count);
         }
         SObjectType targetSObjectType = target.getSObjectType();
-        System.debug(TestDataFactoryBuilder.class + ' ' + pType + ' ' + count + ' ' + targetSObjectType);
         ISObjectFactory sObjFactory = loadSObjectFactory(targetSObjectType);
         Boolean isDefaultFactory = sObjFactory instanceof DefaultSObjectFactory;
         if (sObjFactory.requireRecordType()) {
@@ -71,7 +70,9 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
             SObject defaults = metadataDefaults.clone();
             SObject factoryDefaults = sObjFactory.createDefaults(target);
             if (factoryDefaults.getSObjectType() != target.getSObjectType()) {
-                throw new TestDataFactoryException('Defaults sObject from "createDefaults" is of invalid type: ' + factoryDefaults.getSObjectType());
+                throw new TestDataFactoryException(
+                    'Defaults sObject from "createDefaults" is of invalid type: ' + factoryDefaults.getSObjectType()
+                );
             }
             SObjectUtils.mergeSObjects(defaults, factoryDefaults);
             SObjectUtils.mergeSObjects(defaults, target);
@@ -129,10 +130,10 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
 
     private ISObjectFactory loadSObjectFactory(SObjectType sObjType) {
         return isScenarioSet()
-                ? factory.getSObjFactoryLoader().loadScenario(scenarioType)
-                : factory.getSObjFactoryLoader().loadSObjectFactory(sObjType);
+            ? factory.getSObjFactoryLoader().loadScenario(scenarioType)
+            : factory.getSObjFactoryLoader().loadSObjectFactory(sObjType);
     }
-    
+
     private Boolean isScenarioSet() {
         return scenarioType != null;
     }
