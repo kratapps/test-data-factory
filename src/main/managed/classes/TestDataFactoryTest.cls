@@ -335,6 +335,17 @@ private class TestDataFactoryTest {
     }
 
     @IsTest
+    static void testOpportunity() {
+        staticSetup();
+        Opportunity opp = (Opportunity) factory.inserted(new Opportunity()).toSObject();
+        Opportunity opp2 = (Opportunity) factory.inserted(opp).toSObject();
+        Assert.isNotNull(opp.Id, 'ID cannot be null.');
+        List<OpportunityLineItem> lineItems = (List<OpportunityLineItem>) factory.inserted(50, new OpportunityLineItem(Opportunity = opp2))
+            .toList();
+        Assert.areEqual(50, lineItems.size());
+    }
+
+    @IsTest
     static void testDefaults() {
         staticSetup();
         Account defaults = new Account(
