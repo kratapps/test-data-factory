@@ -1,6 +1,6 @@
-<a href="https://kratapps.com/test-data-factory/">
+<a href="https://docs.kratapps.com/test-data-factory/">
   <img title="Test Data Factory" alt="TDF" width="60px" height="60px" align="right"
-       src="https://kratapps.com/images/logo_tdf_642_642.png"  />
+       src="https://docs.kratapps.com/images/logo_tdf_642_642.png"  />
 </a>
 
 # Test Data Factory
