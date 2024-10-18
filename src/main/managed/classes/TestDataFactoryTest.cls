@@ -267,6 +267,16 @@ private class TestDataFactoryTest {
     }
 
     @IsTest
+    static void testSetChildren() {
+        staticSetup();
+        sobj.TestDataFactory factory = new sobj.TestDataFactory();
+        Account account = (Account) factory.mocked(new Account()).toSObject();
+        List<Account> children = (List<Account>) factory.mocked(10, new Account()).toList();
+        account = (Account) sobj.TestDataFactory.setChildren(account, Schema.Account.ParentId, children);
+        Assert.areEqual(children.size(), account.ChildAccounts.size(), 'Children not mocked.');
+    }
+
+    @IsTest
     static void testAbstract() {
         staticSetup();
         SObjectFactory f = (SObjectFactory) new SObjectFactoryLoader().loadSObjectFactory(Account.SObjectType);
