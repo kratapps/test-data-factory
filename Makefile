@@ -1,29 +1,35 @@
 alias=sobj
-alias_dev=sobj-dev
+alias_packaging=sobj-dev
 
-package_id=033090000008xSoAAI
-version_name=1.4
-version_id=04t09000000vCWnAAM
+include package.env
 
 scratch-org:
-	make create-scratch-org
-	sfdx force:package:install -p 04t30000001DWL0 -u ${alias} -w 20 # License Management App (sfLma) - for testing only
-	sfdx force:source:push -u ${alias}
+	sf org create scratch --set-default --alias ${alias} --definition-file config/project-scratch-def.json --duration-days 30
+	sf package install -o ${alias} -r -p 04t30000001DWL0 -w 20 # License Management App (sfLma) - for testing only
+	sf project deploy start
 
 create-scratch-org:
-	sfdx force:org:create -s -a ${alias} -f config/project-scratch-def.json -d 30
+	sf org create scratch --set-default --alias ${alias} --definition-file config/project-scratch-def.json --duration-days 30
 	
-deploy-dev:
-	sfdx force:source:deploy -u ${alias_dev} -p src/ --testlevel RunLocalTests
+deploy-packaging:
+	sf project deploy start --target-org ${alias_packaging} --source-dir  src/ --test-level RunLocalTests
+
+create-version-beta:
+	sf package1 version create --package-id ${package_id} --name ${version_name_beta} --target-org ${alias_packaging} --wait 60
+
+create-version-released:
+	sf package1 version create --package-id ${package_id} --name ${version_name_beta} --target-org ${alias_packaging} --wait 60 --managed-released
 	
 test:
-	sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests --resultformat human -u ${alias}
+	sf apex run test --code-coverage --test-level RunLocalTests --result-format human --target-org ${alias}
 	
-test-dev:
-	sfdx force:apex:test:run --codecoverage --testlevel RunLocalTests --resultformat human -u ${alias_dev}
+test-packaging:
+	sf apex run test --code-coverage --test-level RunLocalTests --result-format human -target-org ${alias_packaging}
 
 git-tag:
 	git tag -fa latest -m ${version_name}
 	git tag -fa ${version_id} -m ${version_name}
 	git tag -fa ${version_name} -m ${version_name}
-	git push -f --tags
+	git push origin ${version_id}
+	git push origin ${version_name}
+	git push origin latest -f

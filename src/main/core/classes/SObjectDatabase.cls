@@ -5,16 +5,17 @@
 @IsTest
 global without sharing class SObjectDatabase {
     global enum ProcessType {
-        CREATED, INSERTED, MOCKED
+        CREATED,
+        INSERTED,
+        MOCKED
     }
     private static final Map<Id, SObject> sObjectsByIds = new Map<Id, SObject>();
 
     public static SObject getRecord(Id sObjectId) {
         return sObjectsByIds.get(sObjectId);
     }
-    
+
     public static void process(ProcessType pType, SObjectType sObjType, List<SObject> sObjects, Database.DMLOptions dmlOpts) {
-        System.debug(SObjectDatabase.class + ': ' + pType + ' ' + sObjType);
         fillIds(sObjType, sObjects);
         if (pType == ProcessType.MOCKED) {
             SObjectUtils.setMockIds(sObjects);
@@ -24,7 +25,7 @@ global without sharing class SObjectDatabase {
             sObjectsByIds.putAll(sObjects);
         }
     }
-    
+
     private static void fillIds(SObjectType sObjType, List<SObject> sObjects) {
         for (Schema.SObjectField f : sObjType.getDescribe().fields.getMap().values()) {
             DescribeFieldResult fieldResult = f.getDescribe();
@@ -52,7 +53,7 @@ global without sharing class SObjectDatabase {
             }
         }
         if (String.isNotBlank(errors)) {
-            throw new TestDataFactoryException(sObjType +  ' insert failed:\n' + errors);
+            throw new TestDataFactoryException(sObjType + ' insert failed:\n' + errors);
         }
     }
 
