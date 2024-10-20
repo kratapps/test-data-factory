@@ -69,10 +69,7 @@ global without sharing class SObjectUtils {
                     sObj.put(field, record.Id);
                 }
             }
-            // }   if (PUT_SOAP_TYPES.contains(dfr.soapType) && !dfr.isAutoNumber() && (dfr.isCreateable() || isCustomMetadata)) {
         } else if (PUT_SOAP_TYPES.contains(dfr.soapType) && !dfr.isAutoNumber()) {
-            // TODO custom mdt ignored?
-            // DML on MDT is not possible so we can ignore isCreateable for MDT
             sObj.put(fieldName, fieldValue);
         }
     }
