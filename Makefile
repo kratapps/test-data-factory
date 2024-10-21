@@ -1,30 +1,39 @@
 alias=sobj
+alias_no_namespace=sobj-no-ns
 alias_packaging=sobj-dev
 
 include package.env
 
-scratch-org:
+scratch-org-dev:
 	sf org create scratch --set-default --alias ${alias} --definition-file config/project-scratch-def.json --duration-days 30
 	sf package install -o ${alias} -r -p 04t30000001DWL0 -w 20 # License Management App (sfLma) - for testing only
 	sf project deploy start
 
-create-scratch-org:
-	sf org create scratch --set-default --alias ${alias} --definition-file config/project-scratch-def.json --duration-days 30
+scratch-org-no-namespace:
+	#sf org create scratch --alias ${alias_no_namespace} --definition-file config/project-scratch-def.json --duration-days 30 --no-namespace
+	sf project deploy start --target-org ${alias_no_namespace} --source-dir src/sobj/core/ --source-dir src/sobj/example/
+	make test-no-namespace
 	
 deploy-packaging:
-	sf project deploy start --target-org ${alias_packaging} --source-dir  src/ --test-level RunLocalTests
+	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTestsn
+
+validate-packaging:
+	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTests --dry-run
 
 create-version-beta:
-	sf package1 version create --package-id ${package_id} --name ${version_name_beta} --target-org ${alias_packaging} --wait 60
+	sf package1 version create --package-id ${package_id} --name ${version_name} --target-org ${alias_packaging} --wait 60
 
 create-version-released:
-	sf package1 version create --package-id ${package_id} --name ${version_name_beta} --target-org ${alias_packaging} --wait 60 --managed-released
+	sf package1 version create --package-id ${package_id} --name ${version_name} --target-org ${alias_packaging} --wait 60 --managed-released
 	
 test:
-	sf apex run test --code-coverage --test-level RunLocalTests --result-format human --target-org ${alias}
+	sf apex run test --code-coverage --test-level RunLocalTests --result-format human --target-org ${alias} --wait 20
+
+test-no-namespace:
+	sf apex run test --code-coverage --test-level RunLocalTests --result-format human --target-org ${alias_no_namespace} --wait 20
 	
 test-packaging:
-	sf apex run test --code-coverage --test-level RunLocalTests --result-format human -target-org ${alias_packaging}
+	sf apex run test --code-coverage --test-level RunLocalTests --result-format human -target-org ${alias_packaging} --wait 20
 
 git-tag:
 	git tag -fa latest -m ${version_name}
