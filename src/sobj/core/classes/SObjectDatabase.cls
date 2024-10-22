@@ -8,6 +8,11 @@ global without sharing class SObjectDatabase {
     private final ProcessType processType;
     private static Map<Id, SObject> sObjectsByIds = new Map<Id, SObject>();
 
+    @SuppressWarnings('PMD.emptystatementblock')
+    public SObjectDatabase() {
+        // Constructor has to remain in this global class as it was previously released.
+    }
+
     public SObjectDatabase(ProcessType processType) {
         this.processType = processType;
     }
