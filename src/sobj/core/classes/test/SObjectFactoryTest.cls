@@ -130,11 +130,11 @@ private class SObjectFactoryTest {
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Description', 'desc');
         Assert.areEqual('desc', con.Description, 'Description not written.');
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Description', null);
-        Assert.isNull(con.Description);
+        Assert.isNull(con.Description, 'Description not written.');
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Account', new Account(Name = 'acc1'));
         Assert.areEqual('acc1', con.Account.Name, 'Account name not written.');
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Account', null);
-        Assert.isNull(con.Account);
+        Assert.isNull(con.Account, 'Account not written');
         Account acc = new Account();
         SObjectFactoryUtils.safePut(acc, acc.getSObjectType(), false, 'BillingAddress', new Address()); // compound fields should be ignored
         Assert.isNull(acc.BillingAddress, 'Billing address not written.');
@@ -145,24 +145,28 @@ private class SObjectFactoryTest {
         SObjectField accountName = Account.Name;
         DescribeFieldResult accountNameDesc = accountName.getDescribe();
         SObjectFieldDefaultValueProvider p = new SObjectFieldDefaultValueProvider();
-        Assert.areEqual(Blob.valueOf('Name'), p.getDefaultBase64(accountName, accountNameDesc));
-        Assert.areEqual(false, p.getDefaultBoolean(null, null));
-        Assert.areEqual(0, p.getDefaultCurrency(null, null));
-        Assert.areEqual(Date.today(), p.getDefaultDate(null, null));
-        Assert.areEqual(Datetime.now(), p.getDefaultDatetime(null, null));
-        Assert.areEqual(0, p.getDefaultDouble(null, null));
-        Assert.areEqual('jon.doe@acme.com', p.getDefaultEmail(null, null));
-        Assert.areEqual(0, p.getDefaultInteger(null, null));
+        Assert.areEqual(Blob.valueOf('Name'), p.getDefaultBase64(accountName, accountNameDesc), 'Default value mismatch');
+        Assert.areEqual(false, p.getDefaultBoolean(null, null), 'Default value mismatch');
+        Assert.areEqual(0, p.getDefaultCurrency(null, null), 'Default value mismatch');
+        Assert.areEqual(Date.today(), p.getDefaultDate(null, null), 'Default value mismatch');
+        Assert.areEqual(Datetime.now(), p.getDefaultDatetime(null, null), 'Default value mismatch');
+        Assert.areEqual(0, p.getDefaultDouble(null, null), 'Default value mismatch');
+        Assert.areEqual('jon.doe@acme.com', p.getDefaultEmail(null, null), 'Default value mismatch');
+        Assert.areEqual(0, p.getDefaultInteger(null, null), 'Default value mismatch');
         Location loc = (Location) p.getDefaultLocation(null, null);
-        Assert.areEqual(0, loc.getDistance(Location.newInstance(0, 0), 'km'));
-        Assert.areEqual(0, p.getDefaultLong(null, null));
-        Assert.areEqual(0, p.getDefaultPercent(null, null));
-        Assert.areEqual('(555) 555-1234', p.getDefaultPhone(null, null));
-        Assert.areEqual(Account.SObjectType, p.getDefaultReference(Contact.AccountId, Contact.AccountId.getDescribe()).getSObjectType());
-        Assert.areEqual('Name', p.getDefaultString(accountName, accountNameDesc));
-        Assert.areEqual('Name', p.getDefaultTextArea(accountName, accountNameDesc));
-        Assert.areEqual(Time.newInstance(12, 0, 0, 0), p.getDefaultTime(null, null));
-        Assert.areEqual('https://www.acme.com', p.getDefaultUrl(null, null));
+        Assert.areEqual(0, loc.getDistance(Location.newInstance(0, 0), 'km'), 'Default value mismatch');
+        Assert.areEqual(0, p.getDefaultLong(null, null), 'Default value mismatch');
+        Assert.areEqual(0, p.getDefaultPercent(null, null), 'Default value mismatch');
+        Assert.areEqual('(555) 555-1234', p.getDefaultPhone(null, null), 'Default value mismatch');
+        Assert.areEqual(
+            Account.SObjectType,
+            p.getDefaultReference(Contact.AccountId, Contact.AccountId.getDescribe()).getSObjectType(),
+            'Default value mismatch'
+        );
+        Assert.areEqual('Name', p.getDefaultString(accountName, accountNameDesc), 'Default value mismatch');
+        Assert.areEqual('Name', p.getDefaultTextArea(accountName, accountNameDesc), 'Default value mismatch');
+        Assert.areEqual(Time.newInstance(12, 0, 0, 0), p.getDefaultTime(null, null), 'Default value mismatch');
+        Assert.areEqual('https://www.acme.com', p.getDefaultUrl(null, null), 'Default value mismatch');
     }
 
     static Boolean fieldExists(String sObjectName, String fieldName) {
