@@ -9,7 +9,7 @@ global without sharing class SObjectDatabase {
     private static Map<Id, SObject> sObjectsByIds = new Map<Id, SObject>();
 
     @SuppressWarnings('PMD.emptystatementblock')
-    public SObjectDatabase() {
+    global SObjectDatabase() {
         // Constructor has to remain in this global class as it was previously released.
     }
 
