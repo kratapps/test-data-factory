@@ -10,9 +10,8 @@ scratch-org-dev:
 	sf project deploy start
 
 scratch-org-no-namespace:
-	#sf org create scratch --alias ${alias_no_namespace} --definition-file config/project-scratch-def.json --duration-days 30 --no-namespace
+	sf org create scratch --alias ${alias_no_namespace} --definition-file config/project-scratch-def.json --duration-days 30 --no-namespace
 	sf project deploy start --target-org ${alias_no_namespace} --source-dir src/sobj/core/ --source-dir src/sobj/example/
-	make test-no-namespace
 	
 deploy-packaging:
 	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTests
@@ -34,6 +33,10 @@ test-no-namespace:
 	
 test-packaging:
 	sf apex run test --code-coverage --test-level RunLocalTests --result-format human -target-org ${alias_packaging} --wait 20
+
+validate-no-namespace:
+	make scratch-org-no-namespace
+	make test-no-namespace
 
 git-tag:
 	git tag -fa latest -m ${version_name}

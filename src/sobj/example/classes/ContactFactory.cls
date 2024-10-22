@@ -1,10 +1,9 @@
 /**
- * Example implementation used for managed package testing.
- * Use global modifier when extending SObjectFactory.
+ * Use global modifier and namespace for sobj.BaseSObjectFactory when working with installed managed package.
  */
 @IsTest
-public without sharing class ContactFactory extends SObjectFactory {
-    public SObject createDefaults(SObject target) {
+public without sharing class ContactFactory extends BaseSObjectFactory {
+    public override SObject createDefaults(SObject target) {
         return new Contact(FirstName = 'Jon', LastName = 'Doe');
     }
 
