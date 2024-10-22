@@ -51,7 +51,7 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
         return make(SObjectDatabase.ProcessType.MOCKED, count, target);
     }
 
-    public ISObjectFactoryResult make(SObjectDatabase.ProcessType pType, Integer count, SObject target) {
+    public ISObjectFactoryResult make(SObjectDatabase.ProcessType processType, Integer count, SObject target) {
         if (target == null) {
             throw new TestDataFactoryException('SObject target cannot be null');
         } else if (count == null || count < 1) {
@@ -84,7 +84,7 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
             record.Id = null;
             records.add(record);
         }
-        SObjectDatabase.process(pType, targetSObjectType, records, sObjFactory.getDmlOptions());
+        new SObjectDatabase(processType).process(targetSObjectType, records, sObjFactory.getDmlOptions());
         return new SObjectFactoryResult(targetSObjectType, records);
     }
 

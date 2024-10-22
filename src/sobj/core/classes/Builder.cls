@@ -75,7 +75,7 @@ global class Builder {
             record.Id = null;
             sObjects.add(record);
         }
-        SObjectDatabase.process(processType, targetSObjectType, sObjects, factory.getDmlOptions());
+        new SObjectDatabase(processType).process(targetSObjectType, sObjects, factory.getDmlOptions());
         return this;
     }
 

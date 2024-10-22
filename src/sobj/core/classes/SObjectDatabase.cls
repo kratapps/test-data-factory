@@ -5,18 +5,23 @@ global without sharing class SObjectDatabase {
         INSERTED,
         MOCKED
     }
+    private final ProcessType processType;
     private static Map<Id, SObject> sObjectsByIds = new Map<Id, SObject>();
+
+    public SObjectDatabase(ProcessType processType) {
+        this.processType = processType;
+    }
 
     public static SObject getRecord(Id sObjectId) {
         return sObjectsByIds.get(sObjectId);
     }
 
-    public static void process(ProcessType pType, SObjectType sObjType, List<SObject> sObjects, Database.DMLOptions dmlOpts) {
+    public void process(SObjectType sObjType, List<SObject> sObjects, Database.DMLOptions dmlOpts) {
         fillIds(sObjType, sObjects);
-        if (pType == ProcessType.MOCKED) {
+        if (processType == SObjectDatabase.ProcessType.MOCKED) {
             MockId.setMockIds(sObjects);
             sObjectsByIds.putAll(sObjects);
-        } else if (pType == ProcessType.INSERTED) {
+        } else if (processType == SObjectDatabase.ProcessType.INSERTED) {
             processDatabaseResults(sObjType, Database.insert(sObjects, dmlOpts));
             sObjectsByIds.putAll(sObjects);
         }
