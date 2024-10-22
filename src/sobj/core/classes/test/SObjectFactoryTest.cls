@@ -127,16 +127,16 @@ private class SObjectFactoryTest {
     @IsTest
     static void safePutModifiesRecord() {
         Contact con = new Contact();
-        SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Description', 'desc');
+        SObjectFactoryUtils.safePut(con, 'Description', 'desc');
         Assert.areEqual('desc', con.Description, 'Description not written.');
-        SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Description', null);
+        SObjectFactoryUtils.safePut(con, 'Description', null);
         Assert.isNull(con.Description, 'Description not written.');
-        SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Account', new Account(Name = 'acc1'));
+        SObjectFactoryUtils.safePut(con, 'Account', new Account(Name = 'acc1'));
         Assert.areEqual('acc1', con.Account.Name, 'Account name not written.');
-        SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Account', null);
+        SObjectFactoryUtils.safePut(con, 'Account', null);
         Assert.isNull(con.Account, 'Account not written');
         Account acc = new Account();
-        SObjectFactoryUtils.safePut(acc, acc.getSObjectType(), false, 'BillingAddress', new Address()); // compound fields should be ignored
+        SObjectFactoryUtils.safePut(acc, 'BillingAddress', new Address()); // compound fields should be ignored
         Assert.isNull(acc.BillingAddress, 'Billing address not written.');
     }
 

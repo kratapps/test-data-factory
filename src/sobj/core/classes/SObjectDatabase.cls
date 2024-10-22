@@ -30,16 +30,18 @@ global without sharing class SObjectDatabase {
     private static void fillIds(SObjectType sObjType, List<SObject> sObjects) {
         for (Schema.SObjectField f : sObjType.getDescribe().fields.getMap().values()) {
             DescribeFieldResult fieldResult = f.getDescribe();
-            if (fieldResult.getType() == Schema.DisplayType.REFERENCE) {
-                String relationshipName = fieldResult.getRelationshipName();
-                String idName = fieldResult.getName();
-                if (relationshipName != null && idName != null) {
-                    for (SObject sObj : sObjects) {
-                        SObject parent = sObj.getSObject(relationshipName);
-                        if (parent != null) {
-                            sObj.put(idName, parent.Id);
-                        }
-                    }
+            if (fieldResult.getType() != Schema.DisplayType.REFERENCE) {
+                continue;
+            }
+            String relationshipName = fieldResult.getRelationshipName();
+            String idName = fieldResult.getName();
+            if (relationshipName == null || idName == null) {
+                continue;
+            }
+            for (SObject sObj : sObjects) {
+                SObject parent = sObj.getSObject(relationshipName);
+                if (parent != null) {
+                    sObj.put(idName, parent.Id);
                 }
             }
         }

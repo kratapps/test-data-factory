@@ -28,29 +28,28 @@ public inherited sharing class SObjectFactoryUtils {
     }
 
     public static void mergeSObjects(SObject target, SObject source) {
-        SObjectType sObjType = source.getSObjectType();
-        Boolean isCustomMetadata = sObjType.getDescribe().getName()?.endsWith('__mdt');
         Map<String, Object> populatedFields = source.getPopulatedFieldsAsMap();
         for (String fieldName : populatedFields.keySet()) {
             Object fieldValue = populatedFields.get(fieldName);
-            safePut(target, sObjType, isCustomMetadata, fieldName, fieldValue);
+            safePut(target, fieldName, fieldValue);
         }
     }
 
     @TestVisible
-    private static void safePut(SObject sObj, SObjectType sObjType, Boolean isCustomMetadata, String fieldName, Object fieldValue) {
+    private static void safePut(SObject record, String fieldName, Object fieldValue) {
+        SObjectType sObjType = record.getSObjectType();
         DescribeFieldResult dfr = getDescribeFieldResult(sObjType, fieldName);
         if (dfr == null) {
-            SObject record = (SObject) fieldValue;
-            sObj.putSObject(fieldName, record);
-            if (record?.Id != null) {
+            SObject recordValue = (SObject) fieldValue;
+            record.putSObject(fieldName, recordValue);
+            if (recordValue?.Id != null) {
                 SObjectField field = getFieldByRelationshipName(sObjType, fieldName);
                 if (field != null) {
-                    sObj.put(field, record.Id);
+                    record.put(field, recordValue.Id);
                 }
             }
         } else if (SAFE_PUT_SOAP_TYPES.contains(dfr.soapType) && !dfr.isAutoNumber()) {
-            sObj.put(fieldName, fieldValue);
+            record.put(fieldName, fieldValue);
         }
     }
 
