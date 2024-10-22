@@ -8,12 +8,6 @@ global class Builder {
     private final Map<SObjectField, Object> readOnlyValuesByField = new Map<SObjectField, Object>();
     private Boolean autoPopulateRequiredFields;
 
-    public Builder(SObjectDatabase.ProcessType processType, SObjectFactory factory) {
-        this.processType = processType;
-        this.factory = factory;
-        this.numberOfRecords = 1;
-    }
-
     public Builder(SObjectDatabase.ProcessType processType, SObjectFactory factory, Integer numberOfRecords) {
         this.processType = processType;
         this.factory = factory;
