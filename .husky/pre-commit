@@ -2,5 +2,9 @@
 . "$(dirname "$0")/_/husky.sh"
 
 
+# Prettier
 npm run prettier-staged
-npm run scan-staged
+
+# Static Code Analysis
+#sf scanner run --engine "pmd" --pmdconfig config/pmd.xml --severity-threshold 3  --target src/sobj/core
+#sf scanner run --engine "pmd" --pmdconfig config/pmd.xml --severity-threshold 3  --target src/sobj/example

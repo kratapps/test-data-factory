@@ -5,7 +5,7 @@ global without sharing class SObjectDatabase {
         INSERTED,
         MOCKED
     }
-    private static final Map<Id, SObject> sObjectsByIds = new Map<Id, SObject>();
+    private static Map<Id, SObject> sObjectsByIds = new Map<Id, SObject>();
 
     public static SObject getRecord(Id sObjectId) {
         return sObjectsByIds.get(sObjectId);

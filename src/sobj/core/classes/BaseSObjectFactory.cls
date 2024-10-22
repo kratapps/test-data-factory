@@ -25,7 +25,7 @@ global virtual without sharing class BaseSObjectFactory extends SObjectFactory {
 
     public virtual SObject createDefaults(SObject target) {
         SObjectType sObjectType = target.getSObjectType();
-        String sObjectName = sObjectType.getDescribe().getName();
+        String sObjectName = sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getName();
         SObject defaults = sObjectType.newSObject();
         if (sObjectName == 'Event') {
             defaults.put('DurationInMinutes', 60);

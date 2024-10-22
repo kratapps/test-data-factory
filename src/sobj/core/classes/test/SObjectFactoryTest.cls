@@ -76,26 +76,26 @@ private class SObjectFactoryTest {
         Contact c1 = new Contact(FirstName = 'first1', LastName = 'last', Description = 'desc');
         Contact c2 = new Contact(FirstName = 'first2', Email = 'email@email.com', Account = acc);
         SObjectFactoryUtils.mergeSObjects(c1, c2);
-        Assert.areEqual('first2', c1.FirstName);
-        Assert.areEqual('last', c1.LastName);
-        Assert.areEqual('email@email.com', c1.Email);
-        Assert.areEqual('first2', c2.FirstName);
-        Assert.areEqual(null, c2.LastName);
-        Assert.areEqual('email@email.com', c2.Email);
-        Assert.isNotNull(c1.Account);
-        Assert.areEqual(c1.Account.Id, c1.AccountId);
+        Assert.areEqual('first2', c1.FirstName, 'First name not merged.');
+        Assert.areEqual('last', c1.LastName, 'Last name not merged.');
+        Assert.areEqual('email@email.com', c1.Email, 'Email not merged.');
+        Assert.areEqual('first2', c2.FirstName, 'First name overwritten.');
+        Assert.areEqual(null, c2.LastName, 'Last name overwritten.');
+        Assert.areEqual('email@email.com', c2.Email, 'Email overwritten.');
+        Assert.isNotNull(c1.Account, 'Account not merged');
+        Assert.areEqual(c1.Account.Id, c1.AccountId, 'Account.Id not merged from AccountId');
         c2.Account = null;
         c2.Description = null;
         SObjectFactoryUtils.mergeSObjects(c1, c2);
-        Assert.isNull(c1.Account);
-        Assert.isNull(c1.Description);
+        Assert.isNull(c1.Account, 'Account not merged.');
+        Assert.isNull(c1.Description, 'Description not merged');
     }
 
     @IsTest
     static void testRequireRecordType() {
-        Integer recordTypesSize = Account.SObjectType.getDescribe().getRecordTypeInfos().size();
+        Integer recordTypesSize = Account.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getRecordTypeInfos().size();
         if (recordTypesSize > 1) {
-            Id recordTypeId = Account.SObjectType.getDescribe().getRecordTypeInfos()[0].getRecordTypeId();
+            Id recordTypeId = Account.SObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getRecordTypeInfos()[0].getRecordTypeId();
             Account target = new Account();
             target.put('RecordTypeId', recordTypeId);
             SObjectFactoryUtils.requireRecordType(target);
@@ -103,6 +103,10 @@ private class SObjectFactoryTest {
                 SObjectFactoryUtils.requireRecordType(new Account());
                 Assert.fail('Exception expected');
             } catch (SObjectFactoryException e) {
+                Assert.isTrue(
+                    e.getMessage().contains('Record Type need to be specified'),
+                    'Record type required exception message is expected.'
+                );
             }
         } else {
             // no exception expected
@@ -112,25 +116,28 @@ private class SObjectFactoryTest {
 
     @IsTest
     static void describeUtils() {
-        Assert.isNotNull(SObjectFactoryUtils.getDescribeFieldResult(Contact.SObjectType, 'AccountId'), '');
-        Assert.isNull(SObjectFactoryUtils.getDescribeFieldResult(Contact.SObjectType, 'Account'));
-        Assert.isFalse(SObjectFactoryUtils.getDescribeFieldResultReferences(Contact.SObjectType).isEmpty());
+        Assert.isNotNull(SObjectFactoryUtils.getDescribeFieldResult(Contact.SObjectType, 'AccountId'), 'Field not described.');
+        Assert.isNull(SObjectFactoryUtils.getDescribeFieldResult(Contact.SObjectType, 'Account'), 'Field described.');
+        Assert.isFalse(
+            SObjectFactoryUtils.getDescribeFieldResultReferences(Contact.SObjectType).isEmpty(),
+            'Field references not described.'
+        );
     }
 
     @IsTest
     static void safePutModifiesRecord() {
         Contact con = new Contact();
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Description', 'desc');
-        Assert.areEqual('desc', con.Description);
+        Assert.areEqual('desc', con.Description, 'Description not written.');
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Description', null);
         Assert.isNull(con.Description);
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Account', new Account(Name = 'acc1'));
-        Assert.areEqual('acc1', con.Account.Name);
+        Assert.areEqual('acc1', con.Account.Name, 'Account name not written.');
         SObjectFactoryUtils.safePut(con, con.getSObjectType(), false, 'Account', null);
         Assert.isNull(con.Account);
         Account acc = new Account();
         SObjectFactoryUtils.safePut(acc, acc.getSObjectType(), false, 'BillingAddress', new Address()); // compound fields should be ignored
-        Assert.isNull(acc.BillingAddress);
+        Assert.isNull(acc.BillingAddress, 'Billing address not written.');
     }
 
     @IsTest

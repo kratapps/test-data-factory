@@ -1,10 +1,10 @@
 public inherited sharing class SObjectFactoryUtils {
-    private static final Map<SObjectType, DescribeSObjectResult> describeSObjectResults = new Map<SObjectType, DescribeSObjectResult>();
+    private static Map<SObjectType, DescribeSObjectResult> describeSObjectResults = new Map<SObjectType, DescribeSObjectResult>();
     private static Map<SObjectType, Map<String, SObjectField>> fieldsByRelationshipNamesBySObjectTypes = new Map<SObjectType, Map<String, SObjectField>>();
     private static Map<SObjectType, Map<String, SObjectField>> describeSObjectFieldMapBySObjectType = new Map<SObjectType, Map<String, SObjectField>>();
     private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultReferencesBySObjectType = new Map<SObjectType, List<DescribeFieldResult>>();
     private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultRequiredBySObjectType = new Map<SObjectType, List<DescribeFieldResult>>();
-    private static final Map<ISObjectFactory, Map<SObjectField, SObject>> factoryToSObjectFieldToParent = new Map<ISObjectFactory, Map<SObjectField, SObject>>();
+    private static Map<ISObjectFactory, Map<SObjectField, SObject>> factoryToSObjectFieldToParent = new Map<ISObjectFactory, Map<SObjectField, SObject>>();
 
     private static final Set<SoapType> SAFE_PUT_SOAP_TYPES = new Set<SoapType>{
         SoapType.STRING,

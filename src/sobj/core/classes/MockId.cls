@@ -2,7 +2,7 @@ global inherited sharing class MockId {
     private static Map<SObjectType, Long> mockIdCountBySObjectType = new Map<SObjectType, Long>();
 
     global static Id getMockId(SObjectType sObjectType) {
-        String keyPrefix = sObjectType.getDescribe().getKeyPrefix();
+        String keyPrefix = sObjectType.getDescribe(SObjectDescribeOptions.DEFERRED).getKeyPrefix();
         Long mockIdCount = mockIdCountBySObjectType.containsKey(sObjectType) ? mockIdCountBySObjectType.get(sObjectType) + 1 : 1;
         mockIdCountBySObjectType.put(sObjectType, mockIdCount);
         String uniqueSuffix = String.valueOf(mockIdCount);

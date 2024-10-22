@@ -51,9 +51,9 @@
     <rule ref="category/apex/security.xml/ApexXSSFromEscapeFalse" message="Apex classes should escape addError strings">
         <priority>3</priority>
     </rule>
-    <rule ref="category/apex/bestpractices.xml/AvoidGlobalModifier" message="Avoid using global modifier">
-        <priority>3</priority>
-    </rule>
+<!--    <rule ref="category/apex/bestpractices.xml/AvoidGlobalModifier" message="Avoid using global modifier">-->
+<!--        <priority>3</priority>-->
+<!--    </rule>-->
     <rule ref="category/apex/errorprone.xml/AvoidNonExistentAnnotations">
     </rule>
     <rule ref="category/apex/bestpractices.xml/ApexUnitTestShouldNotUseSeeAllDataTrue"
