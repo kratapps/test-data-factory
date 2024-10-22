@@ -15,7 +15,7 @@ scratch-org-no-namespace:
 	make test-no-namespace
 	
 deploy-packaging:
-	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTestsn
+	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTests
 
 validate-packaging:
 	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTests --dry-run
