@@ -1,3 +1,4 @@
+@SuppressWarnings('PMD.cyclomaticcomplexity')
 public inherited sharing class SObjectFactoryUtils {
     private static Map<SObjectType, DescribeSObjectResult> describeSObjectResults = new Map<SObjectType, DescribeSObjectResult>();
     private static Map<SObjectType, Map<String, SObjectField>> fieldsByRelationshipNamesBySObjectTypes = new Map<SObjectType, Map<String, SObjectField>>();
