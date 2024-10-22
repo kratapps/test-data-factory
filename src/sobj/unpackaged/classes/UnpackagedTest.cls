@@ -1,8 +1,35 @@
 @IsTest
 private class UnpackagedTest {
     @IsTest
+    static void recordInsertedThroughGenericFactory() {
+        List<SObjectType> sObjectType = new List<SObjectType>{
+            Account.SObjectType,
+            Campaign.SObjectType,
+            Case.SObjectType,
+            Contact.SObjectType,
+            Contract.SObjectType,
+            Event.SObjectType,
+            Lead.SObjectType,
+            Opportunity.SObjectType,
+            OpportunityLineItem.SObjectType,
+            Order.SObjectType,
+            OrderItem.SObjectType,
+            Pricebook2.SObjectType,
+            PricebookEntry.SObjectType,
+            Product2.SObjectType,
+            Task.SObjectType,
+            User.SObjectType
+        };
+        for (SObjectType sObjType : sObjectType) {
+            System.debug('Going to test: ' + sObjType);
+            SObject sObj = new BaseSObjectFactory().inserted().setRequiredFields().build(sObjType.newSObject()).toSObject();
+            Assert.isNotNull(sObj.Id, 'Record not inserted: ' + sObjType);
+        }
+    }
+
+    @IsTest
     static void testManagedPackageRecords() {
-        GenericSObjectFactory factory = new GenericSObjectFactory();
+        BaseSObjectFactory factory = new BaseSObjectFactory();
         sfLma__Package__c pkg = (sfLma__Package__c) factory.inserted()
             .setRequiredFields()
             .build(new sfLma__Package__c(Name = 'pkg', sfLma__Developer_Org_ID__c = 'aaa', sfLma__Developer_Name__c = 'name'))

@@ -76,7 +76,7 @@ global without sharing class TestDataFactoryBuilder implements ITestDataFactoryB
             }
             SObjectFactoryUtils.mergeSObjects(record, factoryDefaults);
             SObjectFactoryUtils.mergeSObjects(record, target);
-            parentFactory.mergeParentSObject(sObjFactory, record, target);
+            SObjectFactoryUtils.mergeParentSObject(sObjFactory, record, target);
             if (sObjFactory.autoPopulateRequiredFields()) {
                 autoPopulateRequiredFields(targetSObjectType, record);
             }

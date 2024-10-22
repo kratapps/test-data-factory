@@ -67,7 +67,7 @@ public virtual class SObjectFieldDefaultValueProvider {
         if (!fieldDescribe.getReferenceTo().isEmpty()) {
             SObjectType referenceTo = fieldDescribe.getReferenceTo()[0];
             if (referenceTo.getDescribe().isCreateable()) {
-                return new GenericSObjectFactory().inserted().setRequiredFields().build(referenceTo.newSObject()).toSObject();
+                return new BaseSObjectFactory().inserted().setRequiredFields().build(referenceTo.newSObject()).toSObject();
             }
         }
         return null;

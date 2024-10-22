@@ -73,7 +73,7 @@ global class Builder {
             }
             SObjectFactoryUtils.mergeSObjects(record, factoryDefaults);
             SObjectFactoryUtils.mergeSObjects(record, target);
-            parentFactory.mergeParentSObject(factory, record, target);
+            SObjectFactoryUtils.mergeParentSObject(factory, record, target);
             if ((autoPopulateRequiredFields == null && factory.autoPopulateRequiredFields()) || autoPopulateRequiredFields == true) {
                 autoPopulateRequiredFields(targetSObjectType, record);
             }

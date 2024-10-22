@@ -4,6 +4,7 @@ public inherited sharing class SObjectFactoryUtils {
     private static Map<SObjectType, Map<String, SObjectField>> describeSObjectFieldMapBySObjectType = new Map<SObjectType, Map<String, SObjectField>>();
     private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultReferencesBySObjectType = new Map<SObjectType, List<DescribeFieldResult>>();
     private static Map<SObjectType, List<DescribeFieldResult>> describeFieldResultRequiredBySObjectType = new Map<SObjectType, List<DescribeFieldResult>>();
+    private static final Map<ISObjectFactory, Map<SObjectField, SObject>> factoryToSObjectFieldToParent = new Map<ISObjectFactory, Map<SObjectField, SObject>>();
 
     private static final Set<SoapType> SAFE_PUT_SOAP_TYPES = new Set<SoapType>{
         SoapType.STRING,
@@ -149,6 +150,33 @@ public inherited sharing class SObjectFactoryUtils {
 
     public static DescribeFieldResult getDescribeFieldResult(SObjectType sObjType, String fieldName) {
         return getDescribeSObjectFieldMap(sObjType).get(fieldName)?.getDescribe();
+    }
+
+    public static void mergeParentSObject(ISObjectFactory sObjFactory, SObject defaults, SObject target) {
+        List<DescribeFieldResult> fieldResults = SObjectFactoryUtils.getDescribeFieldResultReferences(defaults.getSObjectType());
+        for (DescribeFieldResult fieldResult : fieldResults) {
+            String relationshipName = fieldResult.getRelationshipName();
+            if (relationshipName != null && defaults.getSObject(relationshipName) == null) {
+                SObjectField parentField = fieldResult.getSobjectField();
+                SObject parent = getParentDefaults(sObjFactory, parentField, target);
+                if (parent != null) {
+                    defaults.putSObject(relationshipName, parent);
+                    defaults.put(fieldResult.getName(), parent.Id);
+                }
+            }
+        }
+    }
+
+    private static SObject getParentDefaults(ISObjectFactory sObjFactory, SObjectField parentField, SObject target) {
+        if (!factoryToSObjectFieldToParent.containsKey(sObjFactory)) {
+            factoryToSObjectFieldToParent.put(sObjFactory, new Map<SObjectField, SObject>());
+        }
+        Map<SObjectField, SObject> relationshipNameToParent = factoryToSObjectFieldToParent.get(sObjFactory);
+        if (!relationshipNameToParent.containsKey(parentField)) {
+            SObject parent = sObjFactory.makeParent(parentField, target);
+            relationshipNameToParent.put(parentField, parent);
+        }
+        return relationshipNameToParent.get(parentField);
     }
 
     private static Map<String, SObjectField> getDescribeSObjectFieldMap(SObjectType sObjType) {
