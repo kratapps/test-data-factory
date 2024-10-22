@@ -10,7 +10,7 @@ scratch-org-dev:
 	sf project deploy start
 
 scratch-org-no-namespace:
-	sf org create scratch --alias ${alias_no_namespace} --definition-file config/project-scratch-def.json --duration-days 30 --no-namespace
+	#sf org create scratch --alias ${alias_no_namespace} --definition-file config/project-scratch-def.json --duration-days 30 --no-namespace
 	sf project deploy start --target-org ${alias_no_namespace} --source-dir src/sobj/core/ --source-dir src/sobj/example/
 	
 deploy-packaging:

@@ -102,7 +102,7 @@ private class SObjectFactoryTest {
             try {
                 SObjectFactoryUtils.requireRecordType(new Account());
                 Assert.fail('Exception expected');
-            } catch (TestDataFactoryException e) {
+            } catch (SObjectFactoryException e) {
             }
         } else {
             // no exception expected
