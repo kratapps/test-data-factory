@@ -1,7 +1,6 @@
 global class Builder {
     private final SObjectDatabase.ProcessType processType;
     private final ISObjectFactory factory;
-    private final SObjectParentFactory parentFactory = new SObjectParentFactory();
     private final Integer numberOfRecords;
     private List<SObject> sObjects;
     private SObjectFieldValueProvider valueProvider = new SObjectFieldValueProvider();
