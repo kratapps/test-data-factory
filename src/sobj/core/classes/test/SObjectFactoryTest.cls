@@ -25,12 +25,38 @@ private class SObjectFactoryTest {
     }
 
     @IsTest
-    static void genericFactoryImplementation() {
-        SObjectFactory factory = new BaseSObjectFactory();
+    static void baseFactoryImplementation() {
+        BaseSObjectFactory factory = new BaseSObjectFactory();
         Assert.areEqual(null, factory.makeParent(null, null), 'No parent record created by default.');
         Assert.isTrue(factory.getDmlOptions().duplicateRuleHeader.allowSave, 'Duplicate rule header expected to be disabled by default.');
         Assert.isTrue(factory.requireRecordType(), 'Record Type in target required by default.');
         Assert.isFalse(factory.autoPopulateRequiredFields(), 'Auto-populate required fields expected to be disabled by default.');
+        Assert.isNotNull(factory.created().build(new Account()).toSObject(), 'Record not created');
+        Assert.isNotNull(factory.mocked().build(new Account()).toSObject(), 'Record not mocked');
+        Assert.isNotNull(factory.inserted().setRequiredFields().build(new Account()).toSObject(), 'Record not inserted');
+        Assert.isNotNull(factory.created(1).build(new Account()).toSObject(), 'Record not created');
+        Assert.isNotNull(factory.mocked(1).build(new Account()).toSObject(), 'Record not mocked');
+        Assert.isNotNull(factory.inserted(1).setRequiredFields().build(new Account()).toSObject(), 'Record not inserted');
+        Map<String, List<String>> defaultFieldsByObjectName = new Map<String, List<String>>{
+            'Event' => new List<String>{ 'DurationInMinutes', 'ActivityDateTime' },
+            'OpportunityLineItem' => new List<String>{ 'TotalPrice', 'PricebookEntryId' },
+            'Order' => new List<String>{ 'Status', 'AccountId', 'Pricebook2Id' },
+            'OrderItem' => new List<String>{ 'UnitPrice' },
+            'PricebookEntry' => new List<String>{ 'Pricebook2Id', 'IsActive' },
+            'ServiceContract' => new List<String>{ 'Pricebook2Id' },
+            'User' => new List<String>{ 'ProfileId' }
+        };
+        for (String sObjectName : defaultFieldsByObjectName.keySet()) {
+            List<String> fieldNames = defaultFieldsByObjectName.get(sObjectName);
+            for (String fieldName : fieldNames) {
+                if (fieldExists(sObjectName, fieldName)) {
+                    Assert.isNotNull(
+                        factory.createDefaults(createRecord(sObjectName)).get(fieldName),
+                        'Default value for field "' + fieldName + '" not set on ' + sObjectName
+                    );
+                }
+            }
+        }
     }
 
     @IsTest
@@ -130,5 +156,25 @@ private class SObjectFactoryTest {
         Assert.areEqual('Name', p.getDefaultTextArea(accountName, accountNameDesc));
         Assert.areEqual(Time.newInstance(12, 0, 0, 0), p.getDefaultTime(null, null));
         Assert.areEqual('https://www.acme.com', p.getDefaultUrl(null, null));
+    }
+
+    static Boolean fieldExists(String sObjectName, String fieldName) {
+        SObject record = createRecord(sObjectName);
+        if (record == null) {
+            return false;
+        }
+        return record.getSObjectType().getDescribe().fields.getMap().containsKey(fieldName.toLowerCase());
+    }
+
+    static SObject createRecord(String sObjectName) {
+        Type t = Type.forName(sObjectName);
+        if (t == null) {
+            return null;
+        }
+        Object obj = t.newInstance();
+        if (!(obj instanceof SObject)) {
+            return null;
+        }
+        return (SObject) obj;
     }
 }
