@@ -20,10 +20,10 @@ validate-packaging:
 	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTests --dry-run
 
 create-version-beta:
-	sf package1 version create --package-id ${package_id} --name ${version_name} --target-org ${alias_packaging} --wait 60
+	sf package1 version create --package-id ${package_id} --name ${version_name} --version ${version_name} --target-org ${alias_packaging} --wait 60
 
 create-version-released:
-	sf package1 version create --package-id ${package_id} --name ${version_name} --target-org ${alias_packaging} --wait 60 --managed-released
+	sf package1 version create --package-id ${package_id} --name ${version_name} --version ${version_name} --target-org ${alias_packaging} --wait 60 --managed-released
 	
 test:
 	sf apex run test --code-coverage --test-level RunLocalTests --result-format human --target-org ${alias} --wait 20
