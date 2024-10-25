@@ -1,3 +1,11 @@
+/**
+ * Generic class to build SObject records without templates or extensible to create a custom template factory.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 global virtual without sharing class BaseSObjectFactory extends SObjectFactory {
     global Builder created() {
         return new Builder(SObjectDatabase.ProcessType.CREATED, this, 1);

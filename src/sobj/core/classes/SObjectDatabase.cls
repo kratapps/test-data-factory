@@ -1,3 +1,11 @@
+/**
+ * Proxy for DML operations with mocking capability.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 @IsTest
 global without sharing class SObjectDatabase {
     global enum ProcessType {

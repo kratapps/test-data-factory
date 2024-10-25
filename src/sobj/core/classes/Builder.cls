@@ -1,3 +1,11 @@
+/**
+ * SObject builder provides core methods to construct SObject records.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 global class Builder {
     private final SObjectDatabase.ProcessType processType;
     private final ISObjectFactory factory;

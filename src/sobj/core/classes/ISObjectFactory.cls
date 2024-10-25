@@ -1,15 +1,10 @@
 /**
- * SObject factory provide base SObject with default values. <br/>
+ * Interface for custom SObject Factory template implementations.
  *
- * Factory name need to be in format: <br/>
- * SObject API Name Without suffix and underscores following with 'Factory' string. <br/>
- * You can also created factory for custom settings and managed SObjects. <br/>
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
  *
- * You can create multiple scenarios for one SObjectType with any name you want. <br/>
- * To use scenario you need to use the `useScenario` method. <br/>
- *
- * @author  Ondrej Kratochvil
- * @date    2021-04-06
+ * @author kratapps.com
  */
 global interface ISObjectFactory {
     /**

@@ -1,3 +1,11 @@
+/**
+ * Describes SObjectField and provides default value for it.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 @IsTest
 public without sharing class SObjectFieldValueProvider {
     private final SObjectFieldDefaultValueProvider provider;

@@ -1,3 +1,11 @@
+/**
+ * Tests for core features.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 @IsTest
 private class SObjectFactoryTest {
     @IsTest

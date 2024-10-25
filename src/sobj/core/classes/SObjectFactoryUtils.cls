@@ -1,3 +1,11 @@
+/**
+ * Utility class to describe SObjects.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 @SuppressWarnings('PMD.cyclomaticcomplexity')
 public inherited sharing class SObjectFactoryUtils {
     private static Map<SObjectType, DescribeSObjectResult> describeSObjectResults = new Map<SObjectType, DescribeSObjectResult>();

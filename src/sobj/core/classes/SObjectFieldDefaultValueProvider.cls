@@ -1,3 +1,11 @@
+/**
+ * Provides default value for SObjectField.
+ *
+ * Licensed under BSD 3-Clause
+ * https://docs.kratapps.com/test-data-factory/license/
+ *
+ * @author kratapps.com
+ */
 public virtual class SObjectFieldDefaultValueProvider {
     public virtual Blob getDefaultBase64(SObjectField sObjField, DescribeFieldResult fieldDescribe) {
         return Blob.valueOf(fieldDescribe.getName());
