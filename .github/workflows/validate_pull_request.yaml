@@ -6,14 +6,33 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+      SF_USERNAME: ${{ secrets.SF_USERNAME }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: Configure Git Credentials
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
+          
       - name: Install SF CLI
         uses: kratapps/github-actions/install-sf-cli@main
-#        env:
-#          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
-#          SF_USERNAME: ${{ secrets.SF_USERNAME }}
+                
+  validate_packaged:
+    runs-on: ubuntu-latest
+    needs: validate
+    env:
+      SF_USERNAME: ${{ secrets.SF_USERNAME }}
+    steps:
+      - name: Authorize packaging org
+        run: |
+          sf auth sfdxurl store --sfdx-url-stdin
+
+      - name: Validate against packaging org
+        run: |
+          sf project deploy start --dry-run --test-level RunLocalTests --source-dir src/sobj/ --target-org ${SF_USERNAME}
+
+    
