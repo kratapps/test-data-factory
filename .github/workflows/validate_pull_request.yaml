@@ -13,7 +13,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Install SF CLI
-        uses: kratapps/github-actions/install-sf-cli
+        uses: kratapps/github-actions/install-sf-cli/action.yaml
 #        env:
 #          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
 #          SF_USERNAME: ${{ secrets.SF_USERNAME }}
