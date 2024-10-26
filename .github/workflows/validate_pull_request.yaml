@@ -23,7 +23,7 @@ jobs:
 
       - name: Authorize packaging org
         run: |
-          sf auth sfdxurl store --sfdx-url-stdin
+          echo "$SFDX_AUTH_URL" | sf auth sfdxurl store --sfdx-url-stdin
 
       - name: Validate against packaging org
         run: |
