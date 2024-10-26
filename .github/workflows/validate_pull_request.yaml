@@ -20,13 +20,7 @@ jobs:
           
       - name: Install SF CLI
         uses: kratapps/github-actions/install-sf-cli@main
-                
-  validate_packaged:
-    runs-on: ubuntu-latest
-    needs: validate
-    env:
-      SF_USERNAME: ${{ vars.SF_USERNAME }}
-    steps:
+
       - name: Authorize packaging org
         run: |
           sf auth sfdxurl store --sfdx-url-stdin
