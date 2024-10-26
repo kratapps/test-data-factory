@@ -21,5 +21,6 @@ jobs:
 
       - name: Create Managed Package Version
         run: |
+          source package.env
           echo "Releasing version ${VERSION_NAME}"
           sf package1 version create --managed-released --package-id ${PACKAGE_ID} --name ${VERSION_NAME} --version ${VERSION_NAME} --target-org "${SF_USERNAME_PACKAGING}" --release-notes-url "${RELEASE_NOTES}" --wait 60
