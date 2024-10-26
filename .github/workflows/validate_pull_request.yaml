@@ -54,7 +54,7 @@ jobs:
         run: sf project deploy start --target-org default --source-dir src/sobj/core/ --source-dir src/sobj/example/
 
       - name: Run Tests
-        run: sf apex run test --target-org default --code-coverage --test-level RunLocalTests --result-format human
+        run: sf apex run test --target-org default --code-coverage --test-level RunLocalTests --result-format human --wait 30
   
   static-code-analysis:
     runs-on: ubuntu-latest
