@@ -20,10 +20,10 @@ validate-packaging:
 	sf project deploy start --target-org ${alias_packaging} --source-dir  src/sobj/ --test-level RunLocalTests --dry-run
 
 create-version-beta:
-	sf package1 version create --package-id ${package_id} --name ${version_name} --version ${version_name} --target-org ${alias_packaging} --wait 60
+	sf package1 version create --package-id ${PACKAGE_ID} --name ${VERSION_NAME} --version ${VERSION_NAME} --target-org ${alias_packaging} --release-notes-url "${RELEASE_NOTES}" --wait 60
 
 create-version-released:
-	sf package1 version create --package-id ${package_id} --name ${version_name} --version ${version_name} --target-org ${alias_packaging} --wait 60 --managed-released
+	sf package1 version create --package-id ${PACKAGE_ID} --name ${VERSION_NAME} --version ${VERSION_NAME} --target-org ${alias_packaging} --release-notes-url "${RELEASE_NOTES}" --wait 60 --managed-released
 	
 test:
 	sf apex run test --code-coverage --test-level RunLocalTests --result-format human --target-org ${alias} --wait 20
@@ -39,9 +39,9 @@ validate-no-namespace:
 	make test-no-namespace
 
 git-tag:
-	git tag -fa latest -m ${version_name}
-	git tag -fa ${version_id} -m ${version_name}
-	git tag -fa ${version_name} -m ${version_name}
-	git push origin ${version_id}
-	git push origin ${version_name}
+	git tag -fa latest -m ${VERSION_NAME}
+	git tag -fa ${VERSION_ID} -m ${VERSION_NAME}
+	git tag -fa ${VERSION_NAME} -m ${VERSION_NAME}
+	git push origin ${VERSION_ID}
+	git push origin ${VERSION_NAME}
 	git push origin latest -f
