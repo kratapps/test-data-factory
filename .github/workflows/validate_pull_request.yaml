@@ -1,0 +1,19 @@
+name: Validate PR
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Git Credentials
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Install SF CLI
+        uses: kratapps/github-actions/install-sf-cli
+#        env:
+#          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+#          SF_USERNAME: ${{ secrets.SF_USERNAME }}
