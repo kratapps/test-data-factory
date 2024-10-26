@@ -17,11 +17,9 @@ jobs:
         uses: kratapps/github-actions/install-sf-cli@main
 
       - name: Authenticate the packaging org
-        run: echo "${SFDX_AUTH_URL_DEVHUB}" | sf auth sfdxurl store --sfdx-url-stdin
+        run: echo "${SFDX_AUTH_URL_PACKAGING}" | sf auth sfdxurl store --sfdx-url-stdin
 
       - name: Create Managed Package Version
         run: |
-          source package.env
-          echo "${version_name} ${version_id}"
-#        run: sfdx force:package:version:create -p YourPackageName -x -w 20 -r ${{ github.event.inputs.is_release }}
-#        run: sfdx force:package:version:create -p YourPackageName -x -w 20 -r ${{ github.event.inputs.is_release }}
+          echo "Releasing version ${VERSION_NAME}"
+          sf package1 version create --managed-released --package-id ${PACKAGE_ID} --name ${VERSION_NAME} --version ${VERSION_NAME} --target-org "${SF_USERNAME_PACKAGING}" --release-notes-url "${RELEASE_NOTES}" --wait 60
