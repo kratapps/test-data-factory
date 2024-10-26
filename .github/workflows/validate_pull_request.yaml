@@ -29,6 +29,9 @@ jobs:
   
   unpackaged:
     runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL }}
+      SF_USERNAME: ${{ vars.SF_USERNAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
