@@ -45,7 +45,7 @@ jobs:
         run: sf org create scratch --alias default --definition-file config/project-scratch-def.json --duration-days 1 --no-namespace
       
       - name: Deploy source
-        run: sf project deploy start --target-org default --source-dir src/sobj/core/ --source-dir src/sobj/example/
+        run: "sf project deploy start --target-org default --source-dir src/sobj/core/ --source-dir src/sobj/example/"
 	
       - name: Run Tests
         run: sf apex run test --target-org default --code-coverage --test-level RunLocalTests --result-format human
