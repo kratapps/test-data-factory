@@ -2,8 +2,8 @@
 . "$(dirname "$0")/_/husky.sh"
 
 
-# Prettier
-node_modules/lint-staged/bin/lint-staged.js --config config/prettier.config.js
+# Prettier Write
+node_modules/lint-staged/bin/lint-staged.js --config config/prettier-staged.config.js
 
 # Static Code Analysis
-#sf scanner run --engine "pmd" --pmdconfig config/pmd.xml --severity-threshold 3 --target src/sobj/example --target src/sobj/core
+sf scanner run --engine "pmd" --pmdconfig config/pmd.xml --severity-threshold 3 --target src/sobj/example --target src/sobj/core
