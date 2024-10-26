@@ -4,72 +4,72 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 jobs:
-#  packaged:
-#    runs-on: ubuntu-latest
-#    env:
-#      SFDX_AUTH_URL_PACKAGING: ${{ secrets.SFDX_AUTH_URL_PACKAGING }}
-#      SF_USERNAME_PACKAGING: ${{ vars.SF_USERNAME_PACKAGING }}
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#        
-#      - name: Configure Git Credentials
-#        run: |
-#          git config user.name 'github-actions[bot]'
-#          git config user.email 'github-actions[bot]@users.noreply.github.com'
-#          
-#      - name: Install SF CLI
-#        uses: kratapps/github-actions/install-sf-cli@main
-#
-#      - name: Authorize packaging org
-#        run: echo "${SFDX_AUTH_URL_PACKAGING}" | sf auth sfdxurl store --sfdx-url-stdin
-#
-#      - name: Validate against packaging org
-#        run: sf project deploy start --dry-run --test-level RunLocalTests --source-dir src/sobj/ --target-org "${SF_USERNAME_PACKAGING}"
-#  
-#  unpackaged:
-#    runs-on: ubuntu-latest
-#    env:
-#      SFDX_AUTH_URL_DEVHUB: ${{ secrets.SFDX_AUTH_URL_DEVHUB }}
-#      SF_USERNAME_DEVHUB: ${{ vars.SF_USERNAME_DEVHUB }}
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#
-#      - name: Configure Git Credentials
-#        run: |
-#          git config user.name 'github-actions[bot]'
-#          git config user.email 'github-actions[bot]@users.noreply.github.com'
-#
-#      - name: Install SF CLI
-#        uses: kratapps/github-actions/install-sf-cli@main
-#
-#      - name: Authorize packaging org
-#        run: echo "${SFDX_AUTH_URL_DEVHUB}" | sf auth sfdxurl store --sfdx-url-stdin
-#        
-#      - name: Create scratch org
-#        run: sf org create scratch --alias default --definition-file config/project-scratch-def.json --duration-days 1 --no-namespace --target-dev-hub "${SF_USERNAME_DEVHUB}"
-#
-#      - name: Deploy source
-#        run: sf project deploy start --target-org default --source-dir src/sobj/core/ --source-dir src/sobj/example/
-#
-#      - name: Run Tests
-#        run: sf apex run test --target-org default --code-coverage --test-level RunLocalTests --result-format human --wait 30
-#  
-#  static-code-analysis:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v4
-#        
-#      - name: Install SF CLI
-#        uses: kratapps/github-actions/install-sf-cli@main
-#        
-#      - name: Install node dependencies
-#        run: npm install
-#          
-#      - name: Run scanner
-#        run: sf scanner run --engine "pmd" --pmdconfig config/pmd.xml --severity-threshold 3 --target src/sobj/example --target src/sobj/core
+  packaged:
+    runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL_PACKAGING: ${{ secrets.SFDX_AUTH_URL_PACKAGING }}
+      SF_USERNAME_PACKAGING: ${{ vars.SF_USERNAME_PACKAGING }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Install SF CLI
+        uses: kratapps/github-actions/install-sf-cli@main
+
+      - name: Authorize packaging org
+        run: echo "${SFDX_AUTH_URL_PACKAGING}" | sf auth sfdxurl store --sfdx-url-stdin
+
+      - name: Validate against packaging org
+        run: sf project deploy start --dry-run --test-level RunLocalTests --source-dir src/sobj/ --target-org "${SF_USERNAME_PACKAGING}"
+
+  unpackaged:
+    runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL_DEVHUB: ${{ secrets.SFDX_AUTH_URL_DEVHUB }}
+      SF_USERNAME_DEVHUB: ${{ vars.SF_USERNAME_DEVHUB }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Install SF CLI
+        uses: kratapps/github-actions/install-sf-cli@main
+
+      - name: Authorize packaging org
+        run: echo "${SFDX_AUTH_URL_DEVHUB}" | sf auth sfdxurl store --sfdx-url-stdin
+
+      - name: Create scratch org
+        run: sf org create scratch --alias default --definition-file config/project-scratch-def.json --duration-days 1 --no-namespace --target-dev-hub "${SF_USERNAME_DEVHUB}"
+
+      - name: Deploy source
+        run: sf project deploy start --target-org default --source-dir src/sobj/core/ --source-dir src/sobj/example/
+
+      - name: Run Tests
+        run: sf apex run test --target-org default --code-coverage --test-level RunLocalTests --result-format human --wait 30
+
+  static-code-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SF CLI
+        uses: kratapps/github-actions/install-sf-cli@main
+
+      - name: Install node dependencies
+        run: npm install
+
+      - name: Run scanner
+        run: sf scanner run --engine "pmd" --pmdconfig config/pmd.xml --severity-threshold 3 --target src/sobj/example --target src/sobj/core
         
   prettier-verify:
     runs-on: ubuntu-latest
