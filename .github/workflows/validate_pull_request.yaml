@@ -3,6 +3,9 @@ name: Validate PR
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+    branches:
+      - main
+
 jobs:
   packaged:
     runs-on: ubuntu-latest
@@ -13,18 +16,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure Git Credentials
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
       - name: Install SF CLI
         uses: kratapps/github-actions/install-sf-cli@main
 
-      - name: Authorize packaging org
+      - name: Authorize the packaging org
         run: echo "${SFDX_AUTH_URL_PACKAGING}" | sf auth sfdxurl store --sfdx-url-stdin
 
-      - name: Validate against packaging org
+      - name: Validate against the packaging org
         run: sf project deploy start --dry-run --test-level RunLocalTests --source-dir src/sobj/ --target-org "${SF_USERNAME_PACKAGING}"
 
   unpackaged:
@@ -36,15 +34,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure Git Credentials
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
       - name: Install SF CLI
         uses: kratapps/github-actions/install-sf-cli@main
 
-      - name: Authorize packaging org
+      - name: Authorize the packaging org
         run: echo "${SFDX_AUTH_URL_DEVHUB}" | sf auth sfdxurl store --sfdx-url-stdin
 
       - name: Create scratch org
@@ -80,5 +73,5 @@ jobs:
       - name: Install node dependencies
         run: npm install 
         
-      - name: Prettier Verify
+      - name: Verify Prettier
         run: node_modules/prettier/bin/prettier.cjs --check --config .prettierrc "**/*.{cls,js,json}"

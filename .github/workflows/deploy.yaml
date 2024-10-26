@@ -1,0 +1,25 @@
+name: Deploy to the Packaging Org
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  packaged:
+    runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL_PACKAGING: ${{ secrets.SFDX_AUTH_URL_PACKAGING }}
+      SF_USERNAME_PACKAGING: ${{ vars.SF_USERNAME_PACKAGING }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SF CLI
+        uses: kratapps/github-actions/install-sf-cli@main
+
+      - name: Authorize the packaging org
+        run: echo "${SFDX_AUTH_URL_PACKAGING}" | sf auth sfdxurl store --sfdx-url-stdin
+
+      - name: Deploy to the packaging org
+        run: sf project deploy start --test-level RunLocalTests --source-dir src/sobj/ --target-org "${SF_USERNAME_PACKAGING}"
