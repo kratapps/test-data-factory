@@ -19,7 +19,7 @@ jobs:
       - name: Install SF CLI
         uses: kratapps/github-actions/install-sf-cli@main
 
-      - name: Authorize the packaging org
+      - name: Authenticate the packaging org
         run: echo "${SFDX_AUTH_URL_PACKAGING}" | sf auth sfdxurl store --sfdx-url-stdin
 
       - name: Validate against the packaging org
@@ -37,7 +37,7 @@ jobs:
       - name: Install SF CLI
         uses: kratapps/github-actions/install-sf-cli@main
 
-      - name: Authorize the packaging org
+      - name: Authenticate the packaging org
         run: echo "${SFDX_AUTH_URL_DEVHUB}" | sf auth sfdxurl store --sfdx-url-stdin
 
       - name: Create scratch org

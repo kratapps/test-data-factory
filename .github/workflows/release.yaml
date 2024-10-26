@@ -1,0 +1,27 @@
+name: Release Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_package_version:
+    runs-on: ubuntu-latest
+    env:
+      SFDX_AUTH_URL_PACKAGING: ${{ secrets.SFDX_AUTH_URL_PACKAGING }}
+      SF_USERNAME_PACKAGING: ${{ vars.SF_USERNAME_PACKAGING }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SF CLI
+        uses: kratapps/github-actions/install-sf-cli@main
+
+      - name: Authenticate the packaging org
+        run: echo "${SFDX_AUTH_URL_DEVHUB}" | sf auth sfdxurl store --sfdx-url-stdin
+
+      - name: Create Managed Package Version
+        run: |
+          source package.env
+          echo "${version_name} ${version_id}"
+#        run: sfdx force:package:version:create -p YourPackageName -x -w 20 -r ${{ github.event.inputs.is_release }}
+#        run: sfdx force:package:version:create -p YourPackageName -x -w 20 -r ${{ github.event.inputs.is_release }}
